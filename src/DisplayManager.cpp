@@ -3,9 +3,7 @@
 #include "util.h"
 
 DisplayManager::DisplayManager(int width, int height, const char *title) : width(width), height(height), title(title) {
-    if (!glfwInit()) {
-        fatal("glfw initialization failed");
-    }
+    if (!glfwInit()) fatal("glfw initialization failed");
 
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
