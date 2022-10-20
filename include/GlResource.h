@@ -7,8 +7,8 @@ class GlResource {
     friend class Engine;
 public:
     GlResource();
+    virtual ~GlResource() {};
 private:
-    virtual ~GlResource();
     static std::vector<GlResource*> resources;
     static void cleanup();
 };

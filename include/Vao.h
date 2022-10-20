@@ -2,8 +2,9 @@
 #define VAO
 
 #include <GL/glew.h>
+#include "GlResource.h"
 
-class Vao {
+class Vao : public GlResource {
 public:
     Vao();
     ~Vao();
