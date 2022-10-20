@@ -9,6 +9,7 @@ public:
     ~DisplayManager();
     void update();
     inline bool windowShouldClose() { return glfwWindowShouldClose(window); }
+    inline bool isKeyDown(int key) { return glfwGetKey(window, key) == GLFW_PRESS; }
 private:
     int width, height;
     const char *title;
