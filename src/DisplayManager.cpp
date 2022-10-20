@@ -1,5 +1,6 @@
 #include <GL/glew.h>
 #include "DisplayManager.h"
+#include "Engine.h"
 #include "util.h"
 
 DisplayManager::DisplayManager(int width, int height, const char *title) : width(width), height(height), title(title) {
@@ -13,6 +14,15 @@ DisplayManager::DisplayManager(int width, int height, const char *title) : width
     glfwMakeContextCurrent(window);
     if (glewInit() != GLEW_OK) fatal("glewInit is not OK");
     glfwSwapInterval(1);
+
+    glfwSetWindowSizeCallback(window, [](GLFWwindow *window, int newWidth, int newHeight){
+        Engine::instance->getDisplay()->onWindowSizeChanged(newWidth, newHeight);
+    });
+}
+
+void DisplayManager::onWindowSizeChanged(int newWidth, int newHeight) {
+    width = newWidth;
+    height = newHeight;
 }
 
 void DisplayManager::update() {

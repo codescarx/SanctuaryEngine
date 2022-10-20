@@ -12,6 +12,8 @@ public:
     inline bool isKeyDown(int key) { return glfwGetKey(window, key) == GLFW_PRESS; }
     inline int getWidth() { return width; }
     inline int getHeight() { return height; }
+
+    void onWindowSizeChanged(int newWidth, int newHeight); // this really shouldn't be public
 private:
     int width, height;
     const char *title;
