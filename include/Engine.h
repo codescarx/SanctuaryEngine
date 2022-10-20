@@ -9,8 +9,11 @@ public:
     inline bool windowShouldClose() { return displayManager.windowShouldClose(); };
     void update();
     inline DisplayManager& getDisplay() { return displayManager; }
+    inline float getDelta() { return frameDelta; }
 private:
     DisplayManager displayManager;
+    double lastFrameTime = 0.0;
+    float frameDelta = 0.f;
 };
 
 #endif /* ENGINE */
