@@ -11,9 +11,7 @@ Camera::Camera(const glm::vec3 &position, float zNear, float zFar, float fov)
 
 void Camera::update() {
     move();
-
-    updateViewMatrix();
-    updateProjectionMatrix();
+    updateMatrices();
 }
 
 void Camera::move() {
@@ -51,15 +49,15 @@ void Camera::move() {
     }
 }
 
-void Camera::updateViewMatrix() {
+void Camera::updateMatrices() {
     glm::mat4 mat(1.f);
     mat = glm::rotate(mat, glm::radians(pitch), glm::vec3(1.f, 0.f, 0.f));
     mat = glm::rotate(mat, glm::radians(yaw), glm::vec3(0.f, 1.f, 0.f));
     mat = glm::translate(mat, -position);
     viewMatrix = mat;
-}
 
-void Camera::updateProjectionMatrix() {
     float aspect = float(Engine::instance->getDisplay()->getWidth()) / Engine::instance->getDisplay()->getHeight();
     projectionMatrix = glm::perspective(glm::radians(fov), aspect, zNear, zFar);
+
+    vpMatrix = projectionMatrix * viewMatrix;
 }

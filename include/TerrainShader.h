@@ -3,14 +3,14 @@
 
 #include <glm/glm.hpp>
 #include "Shader.h"
+#include "Camera.h"
 
 class TerrainShader : public Shader {
 public:
     TerrainShader();
     void loadTileInfo(const glm::vec3 &pos, float tileSize);
-    inline void loadVpMatrix(const glm::mat4 &m) {
-        loadMat4("vpMatrix", m);
-    }
+    void loadMatrices(Camera *camera);
+    void loadTessData(const glm::vec2 &screenDim, float tessDivisor);
 };
 
 #endif /* TERRAINSHADER */

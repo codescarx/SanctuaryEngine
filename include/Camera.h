@@ -11,17 +11,17 @@ public:
     void update();
 
     float pitch = 0.f, yaw = 0.f, speed = 50.f;
+    float zNear, zFar, fov;
     glm::vec3 position;
 
     inline const glm::mat4 &getViewMatrix() const { return viewMatrix; }
     inline const glm::mat4 &getProjectionMatrix() const { return projectionMatrix; }
+    inline const glm::mat4 &getVpMatrix() const { return vpMatrix; }
 private:
     void move();
-    void updateViewMatrix();
-    void updateProjectionMatrix();
+    void updateMatrices();
 
-    float zNear, zFar, fov;
-    glm::mat4 viewMatrix, projectionMatrix;
+    glm::mat4 viewMatrix, projectionMatrix, vpMatrix;
 };
 
 #endif /* CAMERA */

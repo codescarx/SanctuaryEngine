@@ -26,11 +26,12 @@ protected:
     inline void loadFloat(const std::string &name, float f) {
         glUniform1f(uniformLocs[name], f);
     }
-
+    inline void loadVec2(const std::string &name, const glm::vec2 &v) {
+        glUniform2f(uniformLocs[name], v.x, v.y);
+    }
     inline void loadVec3(const std::string &name, const glm::vec3 &v) {
         glUniform3f(uniformLocs[name], v.x, v.y, v.z);
     }
-
     inline void loadMat4(const std::string &name, const glm::mat4 &m) {
         glUniformMatrix4fv(uniformLocs[name], 1, GL_FALSE, glm::value_ptr(m));
     }

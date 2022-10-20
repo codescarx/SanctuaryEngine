@@ -1,6 +1,6 @@
 #version 430 core
 
-layout (quads, equal_spacing, cw) in;
+layout (quads, fractional_even_spacing, cw) in;
 
 uniform mat4 vpMatrix;
 
