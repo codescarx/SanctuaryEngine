@@ -28,7 +28,9 @@ void Shader::link(const std::vector<std::string> &uniformVarNames) {
     }
     shaderIds.clear();
 
-
+    for (const std::string &name : uniformVarNames) {
+        uniformLocs[name] = glGetUniformLocation(programId, name.c_str());
+    }
 }
 
 Shader::~Shader() {
