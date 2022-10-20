@@ -7,7 +7,6 @@ class Terrain {
 public:
     Terrain(const glm::vec3 &position, int tileCnt, float tileSize)
         : position(position), tileCnt(tileCnt), tileSize(tileSize) {};
-private:
     const glm::vec3 position;
     const int tileCnt;
     const float tileSize;

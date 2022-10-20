@@ -2,3 +2,5 @@ obj/*
 !obj/.gitkeep
 
 engine.exe
+
+.vscode/*
