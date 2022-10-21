@@ -2,6 +2,10 @@
 
 layout (vertices = 4) out;
 
+layout (location = 0) in vec2 inUv[];
+
+layout (location = 0) out vec2 outUv[4];
+
 uniform mat4 viewMatrix;
 uniform mat4 projectionMatrix;
 uniform vec2 screenDim;
@@ -31,4 +35,5 @@ void main(void) {
     }
     
     gl_out[gl_InvocationID].gl_Position = gl_in[gl_InvocationID].gl_Position;
+    outUv[gl_InvocationID] = inUv[gl_InvocationID];
 }
