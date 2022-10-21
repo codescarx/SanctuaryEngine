@@ -8,7 +8,8 @@
 static const std::vector<std::string> uniforms = {
     "position", "tileSize", "tileCnt", "textureTiling", "i", "j",
     "viewMatrix", "projectionMatrix", "vpMatrix",
-    "screenDim", "tessDivisor"
+    "screenDim", "tessDivisor",
+    "amplitude"
 };
 
 TerrainShader::TerrainShader()
@@ -19,6 +20,7 @@ void TerrainShader::loadTerrainData(Terrain *terrain) {
     loadFloat("tileSize", terrain->tileSize);
     loadInt("tileCnt", terrain->tileCnt);
     loadFloat("textureTiling", terrain->textureTiling);
+    loadFloat("amplitude", terrain->heightmap->amplitude);
 }
 
 void TerrainShader::loadTileIndices(int i, int j) {

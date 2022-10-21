@@ -13,6 +13,8 @@ void TerrainRenderer::render(Scene *scene, Camera *camera) {
     shader.loadMatrices(camera);
     shader.loadTessData(glm::vec2(Engine::instance->getDisplay()->getWidth(), Engine::instance->getDisplay()->getHeight()), terrain->tessDivisor);
     terrain->texture->bind(0);
+    terrain->heightmap->bindHeightmap(1);
+    terrain->heightmap->bindNormalmap(2);
 
     for (int i = 0; i < terrain->tileCnt; i++) {
         for (int j = 0; j < terrain->tileCnt; j++) {
