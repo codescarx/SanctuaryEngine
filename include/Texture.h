@@ -9,13 +9,10 @@ class Texture : public GlResource {
 public:
     Texture(const char *filename);
     ~Texture();
+    void bind(unsigned unit);
 private:
     const GLuint textureId;
-    inline GLuint genTextureId() {
-        GLuint id;
-        glGenTextures(1, &id);
-        return id;
-    }
+    const GLenum target;
 };
 
 #endif /* TEXTURE */

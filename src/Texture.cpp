@@ -3,7 +3,13 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb/stb_image.h"
 
-Texture::Texture(const char *filename) : textureId(genTextureId()) {
+static GLuint genTextureId() {
+    GLuint id;
+    glGenTextures(1, &id);
+    return id;
+}
+
+Texture::Texture(const char *filename) : textureId(genTextureId()), target(GL_TEXTURE_2D) {
     int width, height, channels;
     unsigned char *data = stbi_load(filename, &width, &height, &channels, 4);
     glBindTexture(GL_TEXTURE_2D, textureId);
@@ -16,6 +22,11 @@ Texture::Texture(const char *filename) : textureId(genTextureId()) {
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
     glGenerateMipmap(GL_TEXTURE_2D);
     stbi_image_free(data);
+}
+
+void Texture::bind(unsigned unit) {
+    glActiveTexture(GL_TEXTURE0 + unit);
+    glBindTexture(target, textureId);
 }
 
 Texture::~Texture() {

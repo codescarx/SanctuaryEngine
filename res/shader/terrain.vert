@@ -2,17 +2,19 @@
 
 layout (location = 0) out vec2 outUv;
 
-uniform vec3 pos;
+uniform vec3 position;
 uniform float tileSize;
+uniform int tileCnt;
+uniform int i;
+uniform int j;
 
-const vec3 offset[4] = {
-    vec3(0, 0, 0), vec3(1, 0, 0), vec3(1, 0, 1), vec3(0, 0, 1)
-};
 const vec2 uv[4] = {
     vec2(0, 0), vec2(1, 0), vec2(1, 1), vec2(0, 1)
 };
 
 void main(void) {
-    gl_Position = vec4(pos + tileSize * offset[gl_VertexID], 1.0);
-    outUv = uv[gl_VertexID];
+    vec2 pos = position.xz + tileSize * (vec2(i, j) + uv[gl_VertexID]);
+    gl_Position = vec4(pos.x, position.y, pos.y, 1.0);
+
+    outUv = (1.0 / tileCnt) * (vec2(i, j) + uv[gl_VertexID]);
 }

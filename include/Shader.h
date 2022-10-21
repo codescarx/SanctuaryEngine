@@ -23,6 +23,9 @@ private:
     std::unordered_map<std::string, GLint> uniformLocs;
     const bool isCompute;
 protected:
+    inline void loadInt(const std::string &name, int i) {
+        glUniform1i(uniformLocs[name], i);
+    }
     inline void loadFloat(const std::string &name, float f) {
         glUniform1f(uniformLocs[name], f);
     }
