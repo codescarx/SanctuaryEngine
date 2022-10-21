@@ -25,7 +25,7 @@ int main(void) {
     Scene *scene = new Scene();
     Camera *camera = new Camera(glm::vec3(0.f, 10.f, 0.f), 1.f, 1000.f, 50.f);
 
-    scene->terrain = std::move(std::make_unique<Terrain>(glm::vec3(-200.f, 0.f, -200.f), 8, 50.f, 200.f, new Texture("res/grass.jpg")));
+    scene->terrain = std::move(std::make_unique<Terrain>(glm::vec3(-200.f, 0.f, -200.f), 8, 50.f, 200.f, new Texture("res/sand.jpg"), 50.f));
 
     while (!engine.windowShouldClose()) {
         camera->update();

@@ -6,7 +6,7 @@
 #define FRAGFILE "res/shader/terrain.frag"
 
 static const std::vector<std::string> uniforms = {
-    "position", "tileSize", "tileCnt", "i", "j",
+    "position", "tileSize", "tileCnt", "textureTiling", "i", "j",
     "viewMatrix", "projectionMatrix", "vpMatrix",
     "screenDim", "tessDivisor"
 };
@@ -18,6 +18,7 @@ void TerrainShader::loadTerrainData(Terrain *terrain) {
     loadVec3("position", terrain->position);
     loadFloat("tileSize", terrain->tileSize);
     loadInt("tileCnt", terrain->tileCnt);
+    loadFloat("textureTiling", terrain->textureTiling);
 }
 
 void TerrainShader::loadTileIndices(int i, int j) {
