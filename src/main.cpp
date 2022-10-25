@@ -29,6 +29,7 @@ int main(void) {
     scene->lightColour = glm::vec3(1.0f);
     scene->ambientLight = 0.3f;
     scene->terrain = std::move(std::make_unique<Terrain>(glm::vec3(-400.f, 0.f, -400.f), 16, 50.f, 100.f, new Texture("res/sand.jpg"), 50.f, new Heightmap("res/heightmap.png", 100.f)));
+    scene->skyboxTexture = new Texture({"res/skybox/posx.png","res/skybox/negx.png","res/skybox/posy.png","res/skybox/negy.png","res/skybox/posz.png","res/skybox/negz.png"});
 
     while (!engine.windowShouldClose()) {
         camera->update();

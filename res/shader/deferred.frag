@@ -8,6 +8,8 @@ layout (binding = 1) uniform sampler2D colourTexture;
 layout (binding = 2) uniform sampler2D normalTexture;
 layout (binding = 3) uniform sampler2D metaTexture;
 
+layout (binding = 4) uniform samplerCube skyboxTexture;
+
 layout (location = 0) out vec4 deferredOutput;
 
 uniform mat4 invViewMatrix;
@@ -29,11 +31,16 @@ vec3 getWorldPos() {
 }
 
 void main(void) {
+    vec3 fragPos = getWorldPos();
     vec3 colour = texture(colourTexture, uv).rgb;
     vec3 normal = texture(normalTexture, uv).xyz;
     vec4 meta = texture(metaTexture, uv);
 
-    vec3 fragPos = getWorldPos();
+    if (meta.r < 0.5) {
+        deferredOutput = texture(skyboxTexture, fragPos - cameraPos);
+        return;
+    }
+
     vec3 viewDir = normalize(cameraPos - fragPos);
     vec3 result = max(dot(normal, lightDirection), ambientLight) * colour * lightColour;
 

@@ -12,6 +12,7 @@ void Deferred::doDeferredShading(Scene *scene, Camera *camera, Fbo *deferredFbo)
         glActiveTexture(GL_TEXTURE1 + i);
         glBindTexture(GL_TEXTURE_2D, deferredFbo->getColourAttachmentTextureId(i));
     }
+    scene->skyboxTexture->bind(4);
 
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 

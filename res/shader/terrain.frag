@@ -15,5 +15,5 @@ uniform float textureTiling;
 void main(void) {
     colour = vec4(texture(tex, inUv * textureTiling).rgb, 1.0);
     normals = vec4(texture(normalmap, inUv).rgb, 1.0);
-    meta = vec4(0.0, 1.0, 0.0, 1.0);
+    meta = vec4(1.0, 0.0, 0.0, 1.0);
 }
