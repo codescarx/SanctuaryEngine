@@ -3,11 +3,12 @@
 
 #include "Shader.h"
 #include "Scene.h"
+#include "Camera.h"
 
 class DeferredShader : public Shader {
 public:
     DeferredShader();
-    void loadSceneData(Scene *scene);
+    void loadData(Scene *scene, Camera *camera);
 };
 
 #endif /* DEFERREDSHADER */

@@ -17,11 +17,15 @@ public:
     inline const glm::mat4 &getViewMatrix() const { return viewMatrix; }
     inline const glm::mat4 &getProjectionMatrix() const { return projectionMatrix; }
     inline const glm::mat4 &getVpMatrix() const { return vpMatrix; }
+
+    inline const glm::mat4 &getInvViewMatrix() const { return invViewMatrix; }
+    inline const glm::mat4 &getInvProjectionMatrix() const { return invProjectionMatrix; }
 private:
     void move();
     void updateMatrices();
 
     glm::mat4 viewMatrix, projectionMatrix, vpMatrix;
+    glm::mat4 invViewMatrix, invProjectionMatrix;
 };
 
 #endif /* CAMERA */

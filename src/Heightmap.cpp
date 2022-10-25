@@ -38,9 +38,9 @@ Heightmap::Heightmap(const char *filename, float amplitude) : amplitude(amplitud
             float r = get(data, width, height, x+1, z);   // right
             float br = get(data, width, height, x+1, z+1); // bottom right
 
-            float dx = (tr + 2.f * r + br) - (tl + 2.f * l + bl);
-            float dz = (bl + 2.f * b + br) - (tl + 2.f * t + tr);
-            float dy = 1.f / amplitude;
+            float dx = amplitude * ((tr + 2.f * r + br) - (tl + 2.f * l + bl));
+            float dz = amplitude * ((bl + 2.f * b + br) - (tl + 2.f * t + tr));
+            float dy = 1.f;
 
             glm::vec3 normal = glm::normalize(glm::vec3(dx, dy, dz));
             normals[3 * width * z + 3 * x + 0] = normal.x;

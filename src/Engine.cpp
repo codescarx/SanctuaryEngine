@@ -27,7 +27,8 @@ void Engine::update(Scene *scene, Camera *camera) {
     deferredFbo->unbind();
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    deferredProcessor.doDeferredShading(scene, deferredFbo);
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    deferredProcessor.doDeferredShading(scene,  camera, deferredFbo);
 
     displayManager.update();
     

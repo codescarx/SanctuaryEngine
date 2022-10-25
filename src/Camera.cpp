@@ -60,4 +60,7 @@ void Camera::updateMatrices() {
     projectionMatrix = glm::perspective(glm::radians(fov), aspect, zNear, zFar);
 
     vpMatrix = projectionMatrix * viewMatrix;
+
+    invViewMatrix = glm::inverse(viewMatrix);
+    invProjectionMatrix = glm::inverse(projectionMatrix);
 }

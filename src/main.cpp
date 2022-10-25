@@ -25,7 +25,10 @@ int main(void) {
     Scene *scene = new Scene();
     Camera *camera = new Camera(glm::vec3(0.f, 10.f, 0.f), 1.f, 1000.f, 50.f);
 
-    scene->terrain = std::move(std::make_unique<Terrain>(glm::vec3(-200.f, 0.f, -200.f), 8, 50.f, 100.f, new Texture("res/sand.jpg"), 50.f, new Heightmap("res/heightmap.png", 35.f)));
+    scene->lightDirection = glm::vec3(1, -1, 0);
+    scene->lightColour = glm::vec3(1.0f);
+    scene->ambientLight = 0.3f;
+    scene->terrain = std::move(std::make_unique<Terrain>(glm::vec3(-400.f, 0.f, -400.f), 16, 50.f, 100.f, new Texture("res/sand.jpg"), 50.f, new Heightmap("res/heightmap.png", 100.f)));
 
     while (!engine.windowShouldClose()) {
         camera->update();

@@ -1,10 +1,10 @@
 #include "Deferred.h"
 
-void Deferred::doDeferredShading(Scene *scene, Fbo *deferredFbo) {
+void Deferred::doDeferredShading(Scene *scene, Camera *camera, Fbo *deferredFbo) {
     shader.use();
     dummyVao->bind();
 
-    shader.loadSceneData(scene);
+    shader.loadData(scene, camera);
 
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, deferredFbo->getDepthAttachmentTextureId());

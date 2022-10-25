@@ -8,7 +8,7 @@
 
 class Deferred {
 public:
-    void doDeferredShading(Scene *scene, Fbo *deferredFbo);
+    void doDeferredShading(Scene *scene, Camera *camera, Fbo *deferredFbo);
 private:
     DeferredShader shader;
     Vao * const dummyVao = new Vao();
