@@ -9,6 +9,11 @@ static GLuint genTextureId() {
     return id;
 }
 
+Texture::Texture(int width, int height, float *data): textureId(genTextureId()), target(GL_TEXTURE_2D) {
+    glBindTexture(GL_TEXTURE_2D, textureId);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, width, height, 0, GL_RGBA, GL_FLOAT, data);
+}
+
 Texture::Texture(const char *filename) : textureId(genTextureId()), target(GL_TEXTURE_2D) {
     int width, height, channels;
     unsigned char *data = stbi_load(filename, &width, &height, &channels, 4);
@@ -43,6 +48,10 @@ Texture::Texture(const std::vector<const char *> &filenames) : textureId(genText
 void Texture::bind(unsigned unit) {
     glActiveTexture(GL_TEXTURE0 + unit);
     glBindTexture(target, textureId);
+}
+
+void Texture::bindImage(unsigned unit, GLenum access) {
+    glBindImageTexture(unit, textureId, 0, GL_FALSE, 0, access, GL_RGBA32F);
 }
 
 Texture::~Texture() {

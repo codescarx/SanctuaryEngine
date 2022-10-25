@@ -44,6 +44,8 @@ void FFTWater::precompute() {
             data[4 * (i * N + j) + 3] = h0minusk.imag();
         }
     }
+
+    h0Texture = new Texture(N, N, data);
     
     delete[] data;
 }
