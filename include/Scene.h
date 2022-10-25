@@ -11,7 +11,7 @@ class Scene {
 public:
     std::unique_ptr<Terrain> terrain;
     glm::vec3 lightDirection, lightColour;
-    float ambientLight = 0.1f, fogDensity = 0.007f, fogGradient = 1.5f;
+    float ambientLight = 0.1f, fogDensity = 0.004f, fogGradient = 2.0f;
     Texture *skyboxTexture = nullptr;
 };
 
