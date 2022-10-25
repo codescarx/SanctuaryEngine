@@ -1,0 +1,34 @@
+#version 430 core
+
+layout (local_size_x = 16, local_size_y = 16) in;
+
+layout (binding = 0, rgba32f) readonly uniform image2D h0Texture;
+layout (binding = 1, rgba32f) writeonly uniform image2D hktTexture;
+
+uniform int N;
+uniform float L;
+uniform float t;
+
+const float PI = 3.14159265358979323846;
+
+#define cplx_mul(a, b) vec2(a.x*b.x-a.y*b.y, a.x*b.y+a.y*b.x)
+#define cplx_conj(a) vec2(a.x, -a.y)
+
+void main(void) {
+    vec2 grid = gl_GlobalInvocationID.xy;
+    float n = grid.x - float(N)/2.0, m = grid.y - float(N)/2.0;
+    vec2 k = vec2(2.0 * PI * n / L, 2.0 * PI * M / L);
+
+    float magk = max(length(k), 0.0001);
+    float w = sqrt(9.81 * magk);
+
+    vec4 tex = imageLoad(h0Texture, gl_GlobalInvocationID.xy);
+    vec2 h0k = tex.rg;
+    vec2 h0minusk = tex.ba;
+
+    vec2 hkt = // e^ix = cos(x) + isin(x)
+        cplx_mul(h0k, vec2(cos(w*t), sin(w*t))) +
+        cplx_mul(h0minusk, vec2(cos(-w*t), sin(-w*t)));
+
+    imageStore(hktTexture, gl_GlobalInvocationID.xy, vec4(hkt, 0.0, 1.0));
+}
