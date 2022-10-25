@@ -13,7 +13,7 @@ public:
     Texture(const std::vector<const char *> &filenames); // +x -x +y -y +z -z
     ~Texture();
     void bind(unsigned unit);
-    void bindImage(unsigned unit);
+    void bindImage(unsigned unit, GLenum access);
 private:
     const GLuint textureId;
     const GLenum target;
