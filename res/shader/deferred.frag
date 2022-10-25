@@ -18,6 +18,8 @@ uniform vec3 lightDirection;
 uniform vec3 lightColour;
 uniform vec3 cameraPos;
 uniform float ambientLight;
+uniform float fogDensity;
+uniform float fogGradient;
 
 vec3 getWorldPos() {
     float z = texture(depthTexture, uv).r * 2.0 - 1.0;
@@ -35,14 +37,20 @@ void main(void) {
     vec3 colour = texture(colourTexture, uv).rgb;
     vec3 normal = texture(normalTexture, uv).xyz;
     vec4 meta = texture(metaTexture, uv);
+    vec3 skyColour = texture(skyboxTexture, fragPos - cameraPos).rgb;
 
     if (meta.r < 0.5) {
-        deferredOutput = texture(skyboxTexture, fragPos - cameraPos);
+        deferredOutput = vec4(skyColour, 1.0);
         return;
     }
 
     vec3 viewDir = normalize(cameraPos - fragPos);
     vec3 result = max(dot(normal, lightDirection), ambientLight) * colour * lightColour;
+
+    float dist = length(cameraPos - fragPos);
+    float visibility = exp(-pow(dist * fogDensity, fogGradient));
+    visibility = clamp(visibility, 0.0, 1.0);
+    result = mix(skyColour, result, visibility);
 
     deferredOutput = vec4(result, 1.0);
 }

@@ -5,7 +5,8 @@
 
 static const std::vector<std::string> uniforms = {
     "invViewMatrix", "invProjectionMatrix",
-    "lightDirection", "lightColour", "cameraPos", "ambientLight"
+    "lightDirection", "lightColour", "cameraPos", "ambientLight",
+    "fogDensity", "fogGradient"
 };
 
 DeferredShader::DeferredShader()
@@ -18,4 +19,6 @@ void DeferredShader::loadData(Scene *scene, Camera *camera) {
     loadVec3("lightColour", scene->lightColour);
     loadVec3("cameraPos", camera->position);
     loadFloat("ambientLight", scene->ambientLight);
+    loadFloat("fogDensity", scene->fogDensity);
+    loadFloat("fogGradient", scene->fogGradient);
 }
