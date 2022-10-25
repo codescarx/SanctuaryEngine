@@ -10,9 +10,11 @@ public:
     Fbo(int width, int height, const std::vector<GLenum> colourAttachments, bool depthAttachment);
     ~Fbo();
     void resize(int newWidth, int newHeight);
-    void bindToWrite();
+    void bindToDraw();
     //void bindToRead(unsigned u);
     void unbind();
+    inline GLuint getColourAttachmentTextureId(unsigned i) { return textureIds[i]; }
+    inline GLuint getDepthAttachmentTextureId() { return textureIds.back(); }
 private:
     int width, height;
     GLuint fboId;

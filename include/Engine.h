@@ -4,6 +4,8 @@
 #include "DisplayManager.h"
 #include "TerrainRenderer.h"
 #include "Scene.h"
+#include "Fbo.h"
+#include "Deferred.h"
 
 class Engine {
 public:
@@ -14,11 +16,15 @@ public:
     inline DisplayManager* getDisplay() { return &displayManager; }
     inline float getDelta() { return frameDelta; }
     static Engine *instance;
+
+    void onWindowSizeChanged(int newWidth, int newHeight);
 private:
     DisplayManager displayManager;
     TerrainRenderer terrainRenderer;
+    Deferred deferredProcessor;
     double lastFrameTime = 0.0;
     float frameDelta = 0.f;
+    Fbo *deferredFbo;
 };
 
 #endif /* ENGINE */

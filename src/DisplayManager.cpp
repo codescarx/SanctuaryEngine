@@ -16,6 +16,7 @@ DisplayManager::DisplayManager(int width, int height, const char *title) : width
     glfwSwapInterval(1);
 
     glfwSetWindowSizeCallback(window, [](GLFWwindow *window, int newWidth, int newHeight){
+        Engine::instance->onWindowSizeChanged(newWidth, newHeight);
         Engine::instance->getDisplay()->onWindowSizeChanged(newWidth, newHeight);
     });
 }
