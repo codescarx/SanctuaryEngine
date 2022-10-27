@@ -2,8 +2,8 @@
 
 #include "Engine.h"
 
-HktCompute::HktCompute(int N, float length, Texture *h0Texture)
-    : N(N), h0Texture(h0Texture), hktTexture(new Texture(N, N, nullptr)),
+HktCompute::HktCompute(int N, float length)
+    : N(N), hktTexture(new Texture(N, N, nullptr)),
     Shader("res/shader/hkt.comp", {"N", "L", "t"})
 {
     use();
@@ -12,9 +12,9 @@ HktCompute::HktCompute(int N, float length, Texture *h0Texture)
     disuse();
 }
 
-Texture* HktCompute::compute() {
+void HktCompute::compute(Texture *h0Texture) {
     use();
-    t += Engine::instance->getDelta() * 0.001f;
+    t += Engine::instance->getDelta();
     loadFloat("t", t);
 
     h0Texture->bindImage(0, GL_READ_ONLY);
@@ -22,6 +22,4 @@ Texture* HktCompute::compute() {
 
     glDispatchCompute(N/16, N/16, 1);
     disuse();
-
-    return hktTexture;
 }

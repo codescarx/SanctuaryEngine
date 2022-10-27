@@ -1,0 +1,18 @@
+#version 430 core
+
+layout (local_size_x = 16, local_size_y = 16) in;
+
+layout (binding = 0, rgba32f) readonly uniform image2D inputTex;
+layout (binding = 1, rgba32f) writeonly uniform image2D outputTex;
+
+uniform int N;
+
+void main(void) {
+    ivec2 x = ivec2(gl_GlobalInvocationID);
+
+    int isodd = (x.x + x.y) & 1;
+    float f = 1.0 - (isodd * 2.0); // 1.0 if even, -1.0 if odd
+
+    float h = f * imageLoad(inputTex, x).r / float(N*N);
+    imageStore(outputTex, x, vec4(h, h, h, 1.0));
+}

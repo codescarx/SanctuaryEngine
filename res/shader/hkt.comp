@@ -17,12 +17,12 @@ const float PI = 3.14159265358979323846;
 void main(void) {
     vec2 grid = gl_GlobalInvocationID.xy;
     float n = grid.x - float(N)/2.0, m = grid.y - float(N)/2.0;
-    vec2 k = vec2(2.0 * PI * n / L, 2.0 * PI * M / L);
+    vec2 k = vec2(2.0 * PI * n / L, 2.0 * PI * m / L);
 
     float magk = max(length(k), 0.0001);
     float w = sqrt(9.81 * magk);
 
-    vec4 tex = imageLoad(h0Texture, gl_GlobalInvocationID.xy);
+    vec4 tex = imageLoad(h0Texture, ivec2(gl_GlobalInvocationID.xy));
     vec2 h0k = tex.rg;
     vec2 h0minusk = tex.ba;
 
@@ -30,5 +30,5 @@ void main(void) {
         cplx_mul(h0k, vec2(cos(w*t), sin(w*t))) +
         cplx_mul(h0minusk, vec2(cos(-w*t), sin(-w*t)));
 
-    imageStore(hktTexture, gl_GlobalInvocationID.xy, vec4(hkt, 0.0, 1.0));
+    imageStore(hktTexture, ivec2(gl_GlobalInvocationID.xy), vec4(hkt, 0.0, 1.0));
 }

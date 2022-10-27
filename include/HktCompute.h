@@ -6,12 +6,11 @@
 
 class HktCompute : public Shader {
 public:
-    HktCompute(int N, float length, Texture *h0Texture);
-    Texture* compute();
+    HktCompute(int N, float length);
+    void compute(Texture *h0Texture);
+    Texture * const hktTexture;
 private:
     const int N;
-    Texture * const h0Texture;
-    Texture * const hktTexture;
     float t = 0.f;
 };
 
