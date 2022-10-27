@@ -13,6 +13,7 @@ void main(void) {
     int isodd = (x.x + x.y) & 1;
     float f = 1.0 - (isodd * 2.0); // 1.0 if even, -1.0 if odd
 
+    //float h = f* imageLoad(inputTex, x).r;
     float h = f * imageLoad(inputTex, x).r / float(N*N);
     imageStore(outputTex, x, vec4(h, h, h, 1.0));
 }

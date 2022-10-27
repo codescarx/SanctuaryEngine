@@ -26,6 +26,7 @@ void Ifft::compute(Texture *hktTex, Texture *butterflyTex) {
     butterflyTex->bindImage(0, GL_READ_ONLY);
 
     loadInt("horiz", 1);
+
     for (int i = 0; i < logN; i++) {
         std::swap(ping, pong);
         ping->bindImage(1, GL_READ_ONLY);

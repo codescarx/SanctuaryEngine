@@ -19,7 +19,7 @@ void main(void) {
     float n = grid.x - float(N)/2.0, m = grid.y - float(N)/2.0;
     vec2 k = vec2(2.0 * PI * n / L, 2.0 * PI * m / L);
 
-    float magk = max(length(k), 0.0001);
+    float magk = max(length(k), 0.001);
     float w = sqrt(9.81 * magk);
 
     vec4 tex = imageLoad(h0Texture, ivec2(gl_GlobalInvocationID.xy));
@@ -28,7 +28,7 @@ void main(void) {
 
     vec2 hkt = // e^ix = cos(x) + isin(x)
         cplx_mul(h0k, vec2(cos(w*t), sin(w*t))) +
-        cplx_mul(h0minusk, vec2(cos(-w*t), sin(-w*t)));
+        cplx_mul(cplx_conj(h0minusk), vec2(cos(-w*t), sin(-w*t)));
 
-    imageStore(hktTexture, ivec2(gl_GlobalInvocationID.xy), vec4(hkt, 0.0, 1.0));
+    imageStore(hktTexture, ivec2(gl_GlobalInvocationID.xy), vec4(clamp(hkt, -4000.0, 4000.0), 0.0, 1.0));
 }

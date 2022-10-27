@@ -27,6 +27,7 @@ private:
 
     Texture *h0Texture, *butterflyTexture;
 
+    unsigned bitrev(unsigned u);
     void precomputeH0k();
     void precomputeButterfly();
     float phillips(glm::vec2 k);
