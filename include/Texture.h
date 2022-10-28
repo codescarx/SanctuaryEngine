@@ -9,7 +9,7 @@
 class Texture : public GlResource {
 public:
     Texture(int width, int height, float *data);
-    Texture(const char *filename);
+    Texture(const char *filename, bool heightmap = false);
     Texture(const std::vector<const char *> &filenames); // +x -x +y -y +z -z
     ~Texture();
     void bind(unsigned unit);
@@ -17,6 +17,7 @@ public:
 private:
     const GLuint textureId;
     const GLenum target;
+    void loadHeightmap(const char *filename);
 };
 
 #endif /* TEXTURE */

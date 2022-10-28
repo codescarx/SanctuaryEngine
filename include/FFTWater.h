@@ -7,6 +7,7 @@
 #include "Texture.h"
 #include "HktCompute.h"
 #include "Ifft.h"
+#include "NormalCompute.h"
 
 class FFTWater {
 public:
@@ -17,6 +18,7 @@ public:
     inline Texture* getHktTexture() { return hktCompute.hktTexture; }
     inline Texture* getButterflyTexture() { return butterflyTexture; }
     inline Texture* getHeightmap() { return ifft.getHeightmap(); }
+    inline Texture* getNormalmap() { return normalTex; }
 private:
     const int N, logN;
     const float A, windspeed, length;
@@ -24,8 +26,9 @@ private:
 
     HktCompute hktCompute;
     Ifft ifft;
+    NormalCompute normalCompute;
 
-    Texture *h0Texture, *butterflyTexture;
+    Texture *h0Texture, *butterflyTexture, *normalTex;
 
     unsigned bitrev(unsigned u);
     void precomputeH0k();

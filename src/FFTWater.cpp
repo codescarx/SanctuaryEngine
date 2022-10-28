@@ -121,9 +121,11 @@ FFTWater::FFTWater(int N, float A, float windspeed, float length, const glm::vec
 {   
     precomputeH0k();
     precomputeButterfly();
+    normalTex = new Texture(N, N, nullptr);
 }
 
 void FFTWater::update() {
     hktCompute.compute(h0Texture);
     ifft.compute(hktCompute.hktTexture, butterflyTexture);
+    normalCompute.compute(N, ifft.getHeightmap(), 1.f, normalTex);
 }
