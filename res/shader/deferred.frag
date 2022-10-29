@@ -26,7 +26,7 @@ uniform float fogGradient;
 layout (binding = 5) uniform sampler2D waterHeightmap;
 layout (binding = 6) uniform sampler2D waterNormalmap;
 
-const int iter = 10;
+const int iter = 15;
 uniform float waterLevel;
 uniform float A;
 uniform float tiling;

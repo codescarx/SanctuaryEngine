@@ -29,5 +29,5 @@ void main(void) {
         z0 + 2.0*z1 + z2 - z5 - 2.0*z6 - z7
     );
 	
-    imageStore(normalTex, ivec2(gl_GlobalInvocationID), vec4(normalize(normal), 1.0));
+    imageStore(normalTex, ivec2(gl_GlobalInvocationID.xy), vec4(normalize(normal), 1.0));
 }

@@ -129,5 +129,11 @@ FFTWater::FFTWater(int N, float A, float windspeed, float length, const glm::vec
 void FFTWater::update() {
     hktCompute.compute(h0Texture);
     ifft.compute(hktCompute.hktTexture, butterflyTexture);
+}
+
+// due to a glitch in my Nvidia OpenGL driver, artifacts occur if there is insufficient
+// time delay between computation of the heightmap and computation of the normal map
+// i suspect that it is because the sampler2D thing takes time to fully register image2D changes?
+void FFTWater::updateDelayed() {
     normalCompute.compute(N, ifft.getHeightmap(), normalStrength, normalTex);
 }
