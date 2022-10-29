@@ -31,6 +31,12 @@ uniform float waterLevel;
 uniform float A;
 uniform float tiling;
 uniform vec3 waterColour;
+float sunScale = 3.0;
+float fadeSpeed = 0.15;
+vec3 depthColour = vec3(0.0039, 0.00196, 0.145);
+vec3 extinction = vec3(7.0, 30.0, 40.0);
+float waterVisibility = 4.0;
+float shoreHardness = 1.0;
 
 vec3 light(vec3 colour, vec3 pos, vec3 normal, float reflectivity, float shineDamper) {
     vec3 toLightVector = -lightDirection;
@@ -42,6 +48,22 @@ vec3 light(vec3 colour, vec3 pos, vec3 normal, float reflectivity, float shineDa
     vec3 specular = specularFactor * reflectivity * lightColour;
 
     return diffuse + specular;
+}
+
+vec3 fog(vec3 colour, vec3 fogColour, vec3 pos) {
+    float dist = length(cameraPos - pos);
+    float visibility = exp(-pow(dist * fogDensity, fogGradient));
+    visibility = clamp(visibility, 0.0, 1.0);
+    return mix(fogColour, colour, visibility);
+}
+
+float fresnelTerm(vec3 normal, vec3 viewDir) {
+    const float R0 = 0.5;
+    float angle = 1.0 - clamp(dot(normal, viewDir), 0.0, 1.0);
+    float fresnel = angle * angle;
+    fresnel = fresnel * fresnel;
+    fresnel = fresnel * angle;
+    return clamp(fresnel * (1.0 - clamp(R0, 0.0, 1.0)) + R0, 0.0, 1.0);
 }
 
 vec3 water(vec3 position, vec3 originalColour) {
@@ -67,9 +89,26 @@ vec3 water(vec3 position, vec3 originalColour) {
     viewDir = normalize(cameraPos - surfacePoint);
 
     vec3 normal = texture(waterNormalmap, uv).rgb;
+    
+    vec3 reflection = waterColour;
+    vec3 refraction = originalColour;
 
-    if (position.y > level) return originalColour;
-    return light(waterColour, surfacePoint, normal, 0.8, 70.0);
+    float fresnel = fresnelTerm(normal, viewDir);
+    
+    float depthN = depth * fadeSpeed;
+    float thing = clamp(length(lightColour) / sunScale, 0.0, 1.0);
+    refraction = mix(mix(refraction, thing * waterColour, clamp(depthN / waterVisibility, 0.0, 1.0)),
+						  thing * depthColour, clamp(vdepth / extinction, 0.0, 1.0));
+
+    vec3 result = mix(refraction, reflection, fresnel);
+    result = light(result, surfacePoint, normal, 0.8, 120.0);
+    result = mix(refraction, result, clamp(depth * shoreHardness, 0.0, 1.0));
+    
+    if (position.y > level) {
+        result = originalColour;
+        surfacePoint = position;
+    }
+    return fog(result, texture(skyboxTexture, surfacePoint - cameraPos).rgb, surfacePoint);
 }
 
 vec3 getWorldPos() {
@@ -90,21 +129,15 @@ void main(void) {
     vec4 meta = texture(metaTexture, uv);
     vec3 skyColour = texture(skyboxTexture, fragPos - cameraPos).rgb;
 
-    if (meta.r < 0.5) {
-        deferredOutput = vec4(skyColour, 1.0);
-        return;
-    }
-
     vec3 result = light(colour, fragPos, normal, 0.0, 0.0);
-
-    float dist = length(cameraPos - fragPos);
-    float visibility = exp(-pow(dist * fogDensity, fogGradient));
-    visibility = clamp(visibility, 0.0, 1.0);
-    result = mix(skyColour, result, visibility);
+    if (meta.r < 0.5) {
+        result = skyColour;
+    }
 
     if (fragPos.y <= waterLevel + A) {
         result = water(fragPos, result);
     }
+    else if (meta.r > 0.5) result = fog(result, skyColour, fragPos);
 
     deferredOutput = vec4(result, 1.0);
 }
