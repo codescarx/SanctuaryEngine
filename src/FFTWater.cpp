@@ -3,12 +3,12 @@
 #include <random>
 
 static const float g = 9.81f;
-static std::mt19937 rng(0x1337);
+static std::mt19937 rng(0x13376969);
 
 float FFTWater::phillips(glm::vec2 k) {
     float L = (windspeed * windspeed) / g;
     float magk = glm::length(k);
-    if (magk < 0.001f) magk = 0.001f;
+    if (magk < 0.0001f) magk = 0.0001f;
 
     float numerator = expf(-1.f / (magk * magk * L * L));
     float denominator = magk * magk * magk * magk;
@@ -17,21 +17,29 @@ float FFTWater::phillips(glm::vec2 k) {
     return A * (numerator / denominator) * vectorstuff;
 }
 
+#include <algorithm>
 std::complex<float> FFTWater::h0(glm::vec2 k) {
     std::normal_distribution<float> randGaussian(0.f, 1.f);
 
     float common = sqrtf(phillips(k)) / sqrtf(2.f);
 
+    // float L = (windspeed * windspeed) / g;
+    // float mag = glm::length(k);
+    // if (mag < 0.0001f) mag = 0.0001f;
+    // float magSq = mag * mag;
+
+    // float h0k = std::clamp(sqrt((A/(magSq*magSq)) * pow(dot(normalize(k), normalize(w)), 4.0) * exp(-(1.0/(magSq * L * L))) * exp(-magSq*pow(length/2000.0,2)))/sqrt(2.0), -100., 100.); 
+
     return std::complex<float>(common * randGaussian(rng), common * randGaussian(rng));
 }
-
+#include <iostream>
 void FFTWater::precomputeH0k() {
     float *data = new float[N * N * 4];
 
     for (int i = 0; i < N; i++) {
         for (int j = 0; j < N; j++) {
-            float n = i - float(N) / 2.f;
-            float m = j - float(N) / 2.f;
+            float n = i;// - float(N) / 2.f;
+            float m = j;// - float(N) / 2.f;
             glm::vec2 k(2.f * M_PI * n / length, 2.f * M_PI * m / length);
 
             std::complex<float> h0k = h0(k);
@@ -48,6 +56,13 @@ void FFTWater::precomputeH0k() {
             data[4 * (j * N + i) + 3] = h0minusk.imag();
         }
     }
+
+    float minn = INFINITY, maxx = -INFINITY;
+    for (int i = 0; i < N * N * 4; i++) {
+        minn = std::min(minn, data[i]);
+        maxx = std::max(maxx, data[i]);
+    }
+    std::cout << minn << ' ' << maxx << std::endl;
 
     h0Texture = new Texture(N, N, data);
     

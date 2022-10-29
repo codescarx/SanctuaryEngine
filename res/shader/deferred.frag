@@ -69,7 +69,7 @@ vec3 water(vec3 position, vec3 originalColour) {
     vec3 normal = texture(waterNormalmap, uv).rgb;
 
     if (position.y > level) return originalColour;
-    return light(waterColour, surfacePoint, normal, 1.0, 20.0);
+    return light(waterColour, surfacePoint, normal, 0.8, 70.0);
 }
 
 vec3 getWorldPos() {
@@ -84,8 +84,8 @@ vec3 getWorldPos() {
 }
 
 void main(void) {
-    deferredOutput = texture(waterHeightmap, uv);
-    return;
+    //deferredOutput = texture(waterHeightmap, uv);
+    //return;
     vec3 fragPos = getWorldPos();
     vec3 colour = texture(colourTexture, uv).rgb;
     vec3 normal = texture(normalTexture, uv).xyz;

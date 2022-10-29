@@ -32,9 +32,9 @@ int main(void) {
     scene->terrain = std::move(std::make_unique<Terrain>(glm::vec3(-400.f, 0.f, -400.f), 16, 50.f, 100.f, new Texture("res/sand.jpg"), 50.f, new Heightmap("res/heightmap.png", 100.f, 10.f)));
     scene->skyboxTexture = new Texture({"res/skybox/posx.png","res/skybox/negx.png","res/skybox/posy.png","res/skybox/negy.png","res/skybox/posz.png","res/skybox/negz.png"});
 
-    scene->water = std::move(std::make_unique<FFTWater>(512, 20.f, 26.f, 1000.f, glm::vec2(1, 0), 0.8f));
+    scene->water = std::move(std::make_unique<FFTWater>(512, 150.f, 26.f, 1000.f, glm::vec2(1, 0), 0.5f));
     scene->water->position = glm::vec3(0.f);
-    scene->water->tiling = 0.01f;
+    scene->water->tiling = 0.02f;
 
     while (!engine.windowShouldClose()) {
         camera->update();
