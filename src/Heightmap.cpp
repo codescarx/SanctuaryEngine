@@ -7,7 +7,7 @@
 #include <stb/stb_image.h>
 #include "NormalCompute.h"
 
-Heightmap::Heightmap(const char *filename, float amplitude) : amplitude(amplitude) {
+Heightmap::Heightmap(const char *filename, float amplitude, float normalStrength) : amplitude(amplitude), normalStrength(normalStrength) {
     glGenTextures(1, &heightmapId);
     glGenTextures(1, &normalmapId);
 
@@ -28,7 +28,7 @@ Heightmap::Heightmap(const char *filename, float amplitude) : amplitude(amplitud
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, width, height, 0, GL_RGBA, GL_FLOAT, nullptr);
 
     NormalCompute comp;
-    comp.compute(width, heightmapId, amplitude, normalmapId);
+    comp.compute(width, heightmapId, normalStrength, normalmapId);
 }
 
 void Heightmap::bindHeightmap(unsigned unit) {

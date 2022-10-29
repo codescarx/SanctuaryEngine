@@ -115,8 +115,8 @@ void FFTWater::precomputeButterfly() {
     delete[] data;
 }
 
-FFTWater::FFTWater(int N, float A, float windspeed, float length, const glm::vec2 &w) 
-    : N(N), logN(log2(N)), A(A), windspeed(windspeed), length(length), w(w),
+FFTWater::FFTWater(int N, float A, float windspeed, float length, const glm::vec2 &w, float normalStrength) 
+    : N(N), logN(log2(N)), A(A), windspeed(windspeed), length(length), w(w), normalStrength(normalStrength),
     hktCompute(N, length), ifft(N, logN)
 {   
     precomputeH0k();
@@ -127,5 +127,5 @@ FFTWater::FFTWater(int N, float A, float windspeed, float length, const glm::vec
 void FFTWater::update() {
     hktCompute.compute(h0Texture);
     ifft.compute(hktCompute.hktTexture, butterflyTexture);
-    normalCompute.compute(N, ifft.getHeightmap(), 1.f, normalTex);
+    normalCompute.compute(N, ifft.getHeightmap(), normalStrength, normalTex);
 }

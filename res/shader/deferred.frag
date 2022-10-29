@@ -21,6 +21,57 @@ uniform float ambientLight;
 uniform float fogDensity;
 uniform float fogGradient;
 
+// water
+
+layout (binding = 5) uniform sampler2D waterHeightmap;
+layout (binding = 6) uniform sampler2D waterNormalmap;
+
+const int iter = 10;
+uniform float waterLevel;
+uniform float A;
+uniform float tiling;
+uniform vec3 waterColour;
+
+vec3 light(vec3 colour, vec3 pos, vec3 normal, float reflectivity, float shineDamper) {
+    vec3 toLightVector = -lightDirection;
+
+    vec3 diffuse = max(dot(normal, toLightVector), ambientLight) * lightColour * colour;
+
+    float specularFactor = max(dot(reflect(lightDirection, normal), normalize(cameraPos - pos)), 0.0);
+    specularFactor = pow(specularFactor, shineDamper);
+    vec3 specular = specularFactor * reflectivity * lightColour;
+
+    return diffuse + specular;
+}
+
+vec3 water(vec3 position, vec3 originalColour) {
+    vec3 viewDir = normalize(position - cameraPos);
+
+    float level = waterLevel;
+    float t = (level - cameraPos.y) / viewDir.y;
+    vec3 surfacePoint = cameraPos + viewDir * t;
+
+    vec2 uv;
+    float recip = 1.0 / iter;
+    for (int i = 0; i < iter; i++) {
+        uv = (surfacePoint.xz + viewDir.xz * recip) * tiling;
+        float bias = texture(waterHeightmap, uv).r * recip;
+        level += bias;
+        t = (level - cameraPos.y) / viewDir.y;
+        surfacePoint = cameraPos + viewDir * t;
+    }
+
+    float depth = length(position - surfacePoint);
+    float vdepth = surfacePoint.y - position.y;
+
+    viewDir = normalize(cameraPos - surfacePoint);
+
+    vec3 normal = texture(waterNormalmap, uv).rgb;
+
+    if (position.y > level) return originalColour;
+    return light(waterColour, surfacePoint, normal, 1.0, 20.0);
+}
+
 vec3 getWorldPos() {
     float z = texture(depthTexture, uv).r * 2.0 - 1.0;
 
@@ -33,6 +84,8 @@ vec3 getWorldPos() {
 }
 
 void main(void) {
+    deferredOutput = texture(waterHeightmap, uv);
+    return;
     vec3 fragPos = getWorldPos();
     vec3 colour = texture(colourTexture, uv).rgb;
     vec3 normal = texture(normalTexture, uv).xyz;
@@ -44,13 +97,16 @@ void main(void) {
         return;
     }
 
-    vec3 viewDir = normalize(cameraPos - fragPos);
-    vec3 result = max(dot(normal, lightDirection), ambientLight) * colour * lightColour;
+    vec3 result = light(colour, fragPos, normal, 0.0, 0.0);
 
     float dist = length(cameraPos - fragPos);
     float visibility = exp(-pow(dist * fogDensity, fogGradient));
     visibility = clamp(visibility, 0.0, 1.0);
     result = mix(skyColour, result, visibility);
+
+    if (fragPos.y <= waterLevel + A) {
+        result = water(fragPos, result);
+    }
 
     deferredOutput = vec4(result, 1.0);
 }

@@ -11,7 +11,7 @@
 
 class FFTWater {
 public:
-    FFTWater(int N, float A, float windspeed, float length, const glm::vec2 &w);
+    FFTWater(int N, float A, float windspeed, float length, const glm::vec2 &w, float normalStrength);
     void update();
 
     inline Texture* getH0Texture() { return h0Texture; }
@@ -19,11 +19,15 @@ public:
     inline Texture* getButterflyTexture() { return butterflyTexture; }
     inline Texture* getHeightmap() { return ifft.getHeightmap(); }
     inline Texture* getNormalmap() { return normalTex; }
-private:
+
+    glm::vec3 position;
+    glm::vec3 colour = glm::vec3(0.349, 0.384, 0.463);
+    float tiling = 30.f, normalStrength;
+
     const int N, logN;
     const float A, windspeed, length;
     const glm::vec2 w;
-
+private:
     HktCompute hktCompute;
     Ifft ifft;
     NormalCompute normalCompute;

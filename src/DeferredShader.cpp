@@ -6,7 +6,9 @@
 static const std::vector<std::string> uniforms = {
     "invViewMatrix", "invProjectionMatrix",
     "lightDirection", "lightColour", "cameraPos", "ambientLight",
-    "fogDensity", "fogGradient"
+    "fogDensity", "fogGradient",
+
+    "waterLevel", "A", "tiling", "waterColour"
 };
 
 DeferredShader::DeferredShader()
@@ -21,4 +23,9 @@ void DeferredShader::loadData(Scene *scene, Camera *camera) {
     loadFloat("ambientLight", scene->ambientLight);
     loadFloat("fogDensity", scene->fogDensity);
     loadFloat("fogGradient", scene->fogGradient);
+
+    loadFloat("waterLevel", scene->water->position.y);
+    loadFloat("A", scene->water->A);
+    loadFloat("tiling", scene->water->tiling);
+    loadVec3("waterColour", scene->water->colour);
 }
