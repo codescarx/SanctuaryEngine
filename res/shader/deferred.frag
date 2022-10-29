@@ -84,8 +84,6 @@ vec3 getWorldPos() {
 }
 
 void main(void) {
-    //deferredOutput = texture(waterHeightmap, uv);
-    //return;
     vec3 fragPos = getWorldPos();
     vec3 colour = texture(colourTexture, uv).rgb;
     vec3 normal = texture(normalTexture, uv).xyz;

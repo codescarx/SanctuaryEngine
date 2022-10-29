@@ -38,5 +38,5 @@ void main(void) {
         cplx_mul(h0k, vec2(cos(w*t), sin(w*t))) +
         cplx_mul(cplx_conj(h0minusk), vec2(cos(-w*t), sin(-w*t)));
 
-    imageStore(hktTexture, ivec2(gl_GlobalInvocationID.xy), vec4(max(hkt, -10000.0), 0.0, 1.0));
+    imageStore(hktTexture, ivec2(gl_GlobalInvocationID.xy), vec4(hkt, 0.0, 1.0));
 }
