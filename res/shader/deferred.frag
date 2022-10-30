@@ -33,7 +33,7 @@ uniform float tiling;
 uniform vec3 waterColour;
 float sunScale = 3.0;
 float fadeSpeed = 0.15;
-vec3 depthColour = vec3(0.0039, 0.00196, 0.145);
+vec3 depthColour = vec3(0.0039, 0.00196, 0.145) * 1.5;
 vec3 extinction = vec3(7.0, 30.0, 40.0);
 float waterVisibility = 4.0;
 float shoreHardness = 1.0;

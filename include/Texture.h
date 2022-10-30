@@ -14,8 +14,8 @@ public:
     ~Texture();
     void bind(unsigned unit);
     void bindImage(unsigned unit, GLenum access);
-private:
     const GLuint textureId;
+private:
     const GLenum target;
     void loadHeightmap(const char *filename);
 };
