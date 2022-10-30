@@ -8,7 +8,7 @@
 
 class Texture : public GlResource {
 public:
-    Texture(int width, int height, float *data);
+    Texture(int width, int height, float *data, GLint filter = GL_LINEAR);
     Texture(const char *filename, bool heightmap = false);
     Texture(const std::vector<const char *> &filenames); // +x -x +y -y +z -z
     ~Texture();

@@ -26,7 +26,7 @@ private:
     Deferred deferredProcessor;
     double lastFrameTime = 0.0;
     float frameDelta = 0.f;
-    Fbo *deferredFbo;
+    Fbo *gBuffer, *waterFbo;
 };
 
 #endif /* ENGINE */

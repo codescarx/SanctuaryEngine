@@ -25,12 +25,14 @@ public:
     glm::vec3 colour = glm::vec3(0.349, 0.384, 0.463);
     float tiling = 64.f, normalStrength, tessDivisor = 30.f;
 
-    const int tileCnt = 64;
-    const float tileSize = 12.5;
+    const int tileCnt = 128;
+    const float tileSize = 12.5f;
 
     const int N, logN;
     const float A, windspeed, length;
     const glm::vec2 w;
+
+    float reflectivity = 1.f, shineDamper = 250.0;
 private:
     HktCompute hktCompute;
     Ifft ifft;

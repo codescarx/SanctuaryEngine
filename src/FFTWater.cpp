@@ -14,9 +14,9 @@ float FFTWater::phillips(glm::vec2 k) {
 
     float numerator = expf(-1.f / (magk * magk * L * L));
     float denominator = magk * magk * magk * magk;
-    float vectorstuff = powf(fabsf(glm::dot(k / magk, glm::normalize(w))), 2.f);
+    float vectorstuff = powf(fabsf(glm::dot(k / magk, glm::normalize(w))), 2.f); // 8?
  
-    return A * (numerator / denominator) * vectorstuff;
+    return A * (numerator / denominator) * vectorstuff * exp(-(magk * magk) * (L / 100.0) * (L / 100.0));
 }
 
 std::complex<float> FFTWater::h0(glm::vec2 k) {
@@ -123,7 +123,7 @@ FFTWater::FFTWater(int N, float A, float windspeed, float length, const glm::vec
 {   
     precomputeH0k();
     precomputeButterfly();
-    normalTex = new Texture(N, N, nullptr);
+    normalTex = new Texture(N, N, nullptr, GL_LINEAR);
 }
 
 void FFTWater::update() {
