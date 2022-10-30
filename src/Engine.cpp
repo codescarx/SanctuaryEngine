@@ -23,12 +23,15 @@ void Engine::update(Scene *scene, Camera *camera) {
     glClearColor(0.f, 0.f, 0.f, 1.f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glEnable(GL_DEPTH_TEST);
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
     terrainRenderer.render(scene, camera);
+    scene->water->updateDelayed();
+    waterRenderer.render(scene, camera);
     deferredFbo->unbind();
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-    scene->water->updateDelayed();
     deferredProcessor.doDeferredShading(scene,  camera, deferredFbo);
 
     displayManager.update();

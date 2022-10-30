@@ -34,8 +34,8 @@ int main(void) {
     scene->skyboxTexture = new Texture({"res/skybox/posx.png","res/skybox/negx.png","res/skybox/posy.png","res/skybox/negy.png","res/skybox/posz.png","res/skybox/negz.png"});
 
     scene->water = std::move(std::make_unique<FFTWater>(512, 200.f, 26.f, 1000.f, glm::vec2(0, 1), 0.5f));
-    scene->water->position = glm::vec3(0.f, 10.f, 0.f);
-    scene->water->tiling = 0.02f;
+    scene->water->position = glm::vec3(0.f, -100.f, 0.f);
+    scene->water->tiling = 15.f;
 
     while (!engine.windowShouldClose()) {
         camera->update();

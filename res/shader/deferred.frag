@@ -129,15 +129,13 @@ void main(void) {
     vec4 meta = texture(metaTexture, uv);
     vec3 skyColour = texture(skyboxTexture, fragPos - cameraPos).rgb;
 
-    vec3 result = light(colour, fragPos, normal, 0.0, 0.0);
     if (meta.r < 0.5) {
-        result = skyColour;
+        deferredOutput = vec4(skyColour, 1.0);
+        return;
     }
 
-    if (fragPos.y <= waterLevel + A) {
-        result = water(fragPos, result);
-    }
-    else if (meta.r > 0.5) result = fog(result, skyColour, fragPos);
+    vec3 result = light(colour, fragPos, normal, meta.g, meta.b);
+    result = fog(result, skyColour, fragPos);
 
     deferredOutput = vec4(result, 1.0);
 }

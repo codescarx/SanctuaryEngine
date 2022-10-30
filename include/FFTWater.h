@@ -23,7 +23,10 @@ public:
 
     glm::vec3 position;
     glm::vec3 colour = glm::vec3(0.349, 0.384, 0.463);
-    float tiling = 30.f, normalStrength;
+    float tiling = 64.f, normalStrength, tessDivisor = 30.f;
+
+    const int tileCnt = 64;
+    const float tileSize = 12.5;
 
     const int N, logN;
     const float A, windspeed, length;

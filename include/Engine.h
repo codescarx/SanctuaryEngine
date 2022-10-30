@@ -3,6 +3,7 @@
 
 #include "DisplayManager.h"
 #include "TerrainRenderer.h"
+#include "WaterRenderer.h"
 #include "Scene.h"
 #include "Fbo.h"
 #include "Deferred.h"
@@ -21,6 +22,7 @@ public:
 private:
     DisplayManager displayManager;
     TerrainRenderer terrainRenderer;
+    WaterRenderer waterRenderer;
     Deferred deferredProcessor;
     double lastFrameTime = 0.0;
     float frameDelta = 0.f;
