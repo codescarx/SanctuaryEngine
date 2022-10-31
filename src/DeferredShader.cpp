@@ -9,7 +9,7 @@ static const std::vector<std::string> uniforms = {
     "fogDensity", "fogGradient",
 
     "waterLevel", "A", "tiling", "waterColour",
-    "waterReflectivity", "waterShineDamper"
+    "waterReflectivity", "waterShineDamper", "fadeSpeed"
 };
 
 DeferredShader::DeferredShader()
@@ -33,5 +33,6 @@ void DeferredShader::loadData(Scene *scene, Camera *camera) {
 
         loadFloat("waterReflectivity", scene->water->reflectivity);
         loadFloat("waterShineDamper", scene->water->shineDamper);
+        loadFloat("fadeSpeed", scene->water->fadeSpeed);
     }
 }

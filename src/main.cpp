@@ -27,22 +27,36 @@ int main(void) {
     Camera *camera = new Camera(glm::vec3(0.f, 50.f, 0.f), 1.f, 2000.f, 50.f);
 
     scene->fogDensity = 0.003f;
-    scene->lightDirection = glm::vec3(0, -1, -1);
+    scene->lightDirection = glm::vec3(0, -1, 0.7);
     scene->lightColour = glm::vec3(1.0f);
     scene->ambientLight = 0.4f;
     scene->terrain = std::move(std::make_unique<Terrain>(glm::vec3(-400.f, 0.f, -400.f), 16, 50.f, 50.f, new Texture("res/sand.jpg"), 50.f, new Heightmap("res/heightmap.png", 100.f, 5.f)));
     scene->skyboxTexture = new Texture({"res/skybox/posx.png","res/skybox/negx.png","res/skybox/posy.png","res/skybox/negy.png","res/skybox/posz.png","res/skybox/negz.png"});
 
-    scene->water = std::move(std::make_unique<FFTWater>(512, 200.f, 26.f, 1000.f, glm::vec2(0, 1), 0.4f));
+    scene->water = std::move(std::make_unique<FFTWater>(512, 200.f, 26.f, 1000.f, glm::vec2(0, 1), 0.5f));
     scene->water->position = glm::vec3(-800.f, 0.f, -800.f);
     scene->water->tiling = 20.f;
+    scene->water->fadeSpeed = 0.09f;
 
     while (!engine.windowShouldClose()) {
         camera->update();
 
+        camera->position = glm::vec3(-60.4655, 62.7346, 56.0305);
+        camera->pitch = 46.6381;
+        camera->yaw = 582.363;
+
         if (scene->water) scene->water->update();
 
+        std::cout << camera->position << ' ' << camera->pitch << ' ' << camera->yaw << '\n';
+
         // ImGui::Begin("options");
+
+        // ImGui::SliderFloat("lx", &scene->lightDirection.x, -1, 1);
+        // ImGui::SliderFloat("ly", &scene->lightDirection.y, -1, 1);
+        // ImGui::SliderFloat("lz", &scene->lightDirection.z, -1, 1);
+        
+        // ImGui::SliderFloat("fade", &scene->water->fadeSpeed, 0, 1);
+        // ImGui::SliderFloat("y", &scene->water->position.y, -20, 20);
         // ImGui::SliderFloat("normal", &scene->water->normalStrength, 0.1, 2.0);
         // ImGui::SliderFloat("reflectivity", &scene->water->reflectivity, 0.1, 5.0);
         // ImGui::SliderFloat("shineDamper", &scene->water->shineDamper, 50.0, 300.0);

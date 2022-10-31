@@ -32,7 +32,7 @@ public:
     const float A, windspeed, length;
     const glm::vec2 w;
 
-    float reflectivity = 1.f, shineDamper = 250.0;
+    float reflectivity = 1.f, shineDamper = 250.0, fadeSpeed = 0.15f;
 private:
     HktCompute hktCompute;
     Ifft ifft;

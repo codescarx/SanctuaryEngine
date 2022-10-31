@@ -28,6 +28,7 @@ layout (binding = 6) uniform sampler2D waterDepthTexture;
 
 uniform float waterReflectivity;
 uniform float waterShineDamper;
+uniform float fadeSpeed;
 
 const int iter = 15;
 uniform float waterLevel;
@@ -35,7 +36,6 @@ uniform float A;
 uniform float tiling;
 uniform vec3 waterColour;
 float sunScale = 3.0;
-float fadeSpeed = 0.15;
 vec3 depthColour = vec3(0.0039, 0.00196, 0.145) * 1.5;
 vec3 extinction = vec3(7.0, 30.0, 40.0);
 float waterVisibility = 4.0;
@@ -150,7 +150,6 @@ vec3 getWaterColour(vec3 originalColour, vec3 position, vec3 normal, float depth
 
     const vec3 waterColour = vec3(0.349, 0.384, 0.493) * 0.65;
     const vec3 depthColour = waterColour * 0.8;
-    const float fadeSpeed = 0.02;
     const float shoreHardness = 0.5;
 
     vec3 reflection = waterColour;
