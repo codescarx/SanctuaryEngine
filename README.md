@@ -9,7 +9,7 @@ This is the 5th rewrite of my graphics engine. The focus of this rewrite is to i
 ___
 ## Features:
 
-### Realistic Ocean Water Simulation using the Discrete Inverse Fourier Transform
+### Realistic Ocean Wave Simulation using the Discrete Inverse Fourier Transform
 ![](readmeimg/ocean.png)
 
 ___
