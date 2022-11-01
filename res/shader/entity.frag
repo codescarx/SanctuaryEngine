@@ -11,6 +11,6 @@ layout (binding = 0) uniform sampler2D tex;
 
 void main(void) {
     colour = vec4(texture(tex, uv).rgb, 1.0);
-    normals = normal;
+    normals = vec4(normalize(normal), 1.0);
     meta = vec4(1.0, 0.0, 1.0, 1.0);
 }

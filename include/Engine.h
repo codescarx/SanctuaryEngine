@@ -2,6 +2,7 @@
 #define ENGINE
 
 #include "DisplayManager.h"
+#include "EntityRenderer.h"
 #include "TerrainRenderer.h"
 #include "WaterRenderer.h"
 #include "Scene.h"
@@ -21,6 +22,7 @@ public:
     void onWindowSizeChanged(int newWidth, int newHeight);
 private:
     DisplayManager displayManager;
+    EntityRenderer entityRenderer;
     TerrainRenderer terrainRenderer;
     WaterRenderer waterRenderer;
     Deferred deferredProcessor;

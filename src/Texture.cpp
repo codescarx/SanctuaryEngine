@@ -18,6 +18,16 @@ Texture::Texture(int width, int height, float *data, GLint filter): textureId(ge
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, width, height, 0, GL_RGBA, GL_FLOAT, data);
 }
 
+Texture::Texture(float r, float g, float b) : textureId(genTextureId()), target(GL_TEXTURE_2D) {
+    glBindTexture(GL_TEXTURE_2D, textureId);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);	
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    float data[4] = {r, g, b, 1.0};
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, 1, 1, 0, GL_RGBA, GL_FLOAT, data);
+}
+
 Texture::Texture(const char *filename, bool heightmap) : textureId(genTextureId()), target(GL_TEXTURE_2D) {
     if (heightmap) {
         loadHeightmap(filename);

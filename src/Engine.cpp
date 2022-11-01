@@ -27,6 +27,7 @@ void Engine::update(Scene *scene, Camera *camera) {
     gBuffer->bindToDraw();
     glClearColor(0.f, 0.f, 0.f, 0.f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    entityRenderer.render(scene, camera);
     terrainRenderer.render(scene, camera);
     gBuffer->unbind();
 

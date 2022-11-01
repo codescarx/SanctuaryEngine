@@ -9,6 +9,7 @@
 struct Model {
     Vao * const mesh;
     Texture * const texture;
+    Model(Vao *mesh, Texture *texture) : mesh(mesh), texture(texture) {}
 };
 
 class Entity {

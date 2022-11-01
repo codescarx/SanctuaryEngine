@@ -38,16 +38,16 @@ int main(void) {
     scene->water->tiling = 20.f;
     scene->water->fadeSpeed = 0.09f;
 
+    Model monkey(Vao::loadFromObj("res/monkey.obj"), new Texture(0.5f, 0.5f, 0.5f));
+
+    scene->entities.emplace_back(glm::vec3(0.f, 100.f, 0.f), glm::vec3(0.f), glm::vec3(10.f), monkey);
+
     while (!engine.windowShouldClose()) {
         camera->update();
 
-        camera->position = glm::vec3(-60.4655, 62.7346, 56.0305);
-        camera->pitch = 46.6381;
-        camera->yaw = 582.363;
+        scene->entities.back().rotation.y += 30.f * Engine::instance->getDelta();
 
         if (scene->water) scene->water->update();
-
-        std::cout << camera->position << ' ' << camera->pitch << ' ' << camera->yaw << '\n';
 
         // ImGui::Begin("options");
 

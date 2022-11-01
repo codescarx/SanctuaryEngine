@@ -13,5 +13,5 @@ uniform mat4 vpMatrix;
 void main(void) {
     gl_Position = vpMatrix * transformationMatrix * vec4(position, 1.0);
     outUv = uv;
-    outNormal = normal;
+    outNormal = (transformationMatrix * vec4(normal, 0.0)).xyz;
 }
