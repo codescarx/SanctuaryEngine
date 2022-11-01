@@ -9,7 +9,7 @@
 
 Vao::Vao() : vaoId([](){ GLuint tmp; glGenVertexArrays(1, &tmp); return tmp; }()) {}
 
-Vao::Vao(const std::vector<Vertex> &vertices) : vaoId([](){ GLuint tmp; glGenVertexArrays(1, &tmp); return tmp; }()) {
+Vao::Vao(const std::vector<Vertex> &vertices) : vaoId([](){ GLuint tmp; glGenVertexArrays(1, &tmp); return tmp; }()), numVertices(vertices.size()) {
     GLuint vbo;
     glGenBuffers(1, &vbo);
     vbos.push_back(vbo);

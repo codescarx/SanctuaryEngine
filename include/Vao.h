@@ -22,6 +22,7 @@ public:
     Vao(const std::vector<Vertex> &vertices);
     ~Vao();
     const GLuint vaoId;
+    const unsigned numVertices = 0;
     
     inline void bind() { glBindVertexArray(vaoId); }
     inline void unbind() { glBindVertexArray(0); }

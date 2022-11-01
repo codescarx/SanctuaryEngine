@@ -3,13 +3,16 @@
 
 #include <glm/glm.hpp>
 #include <memory>
+#include <vector>
 
+#include "Entity.h"
 #include "Terrain.h"
 #include "FFTWater.h"
 #include "Texture.h"
 
 class Scene {
 public:
+    std::vector<Entity> entities;
     std::unique_ptr<Terrain> terrain = nullptr;
     std::unique_ptr<FFTWater> water = nullptr;
     glm::vec3 lightDirection, lightColour;

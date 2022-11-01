@@ -5,11 +5,11 @@
 #include "Camera.h"
 #include "Shader.h"
 
-class EntityRenderer : Shader {
+class EntityRenderer : public Shader {
 public:
+    EntityRenderer();
     void render(Scene *scene, Camera *camera);
 private:
-    
 };
 
 
