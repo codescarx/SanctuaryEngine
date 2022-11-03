@@ -16,36 +16,98 @@ void Ifft2::compute(Texture *in, Texture *out) {
 // ==================================================
 
 Ifft::Ifft(int N, int logN) :
-    N(N), logN(logN), storage(new Texture(N, N, nullptr)), stage2(N),
+    N(N), logN(logN), storage(new Texture(N, N, nullptr)), dx(new Texture(N, N, nullptr)), dy(new Texture(N, N, nullptr)), dz(new Texture(N, N, nullptr)), stage2(N),
     Shader("res/shader/ifft.comp", {"stage", "horiz"}) {}
 
-void Ifft::compute(Texture *hktTex, Texture *butterflyTex) {
-    pong = hktTex, ping = storage;
+void Ifft::compute(Texture *hktTex, Texture *hktXTex, Texture *hktZTex, Texture *butterflyTex) {
     
-    use();
-    butterflyTex->bindImage(0, GL_READ_ONLY);
+    
+    {
+        use();
+        butterflyTex->bindImage(0, GL_READ_ONLY);
 
-    loadInt("horiz", 1);
+        pong = hktTex, ping = storage;
 
-    for (int i = 0; i < logN; i++) {
+        loadInt("horiz", 1);
+
+        for (int i = 0; i < logN; i++) {
+            std::swap(ping, pong);
+            ping->bindImage(1, GL_READ_ONLY);
+            pong->bindImage(2, GL_WRITE_ONLY);
+            loadInt("stage", i);
+            glDispatchCompute(N/16, N/16, 1);
+        }
+
+        loadInt("horiz", 0);
+        for (int i = 0; i < logN; i++) {
+            std::swap(ping, pong);
+            ping->bindImage(1, GL_READ_ONLY);
+            pong->bindImage(2, GL_WRITE_ONLY);
+            loadInt("stage", i);
+            glDispatchCompute(N/16, N/16, 1);
+        }
+
         std::swap(ping, pong);
-        ping->bindImage(1, GL_READ_ONLY);
-        pong->bindImage(2, GL_WRITE_ONLY);
-        loadInt("stage", i);
-        glDispatchCompute(N/16, N/16, 1);
+        stage2.compute(ping, dy);
     }
 
-    loadInt("horiz", 0);
-    for (int i = 0; i < logN; i++) {
+    {
+        use();
+        butterflyTex->bindImage(0, GL_READ_ONLY);
+
+        pong = hktXTex, ping = storage;
+
+        loadInt("horiz", 1);
+
+        for (int i = 0; i < logN; i++) {
+            std::swap(ping, pong);
+            ping->bindImage(1, GL_READ_ONLY);
+            pong->bindImage(2, GL_WRITE_ONLY);
+            loadInt("stage", i);
+            glDispatchCompute(N/16, N/16, 1);
+        }
+
+        loadInt("horiz", 0);
+        for (int i = 0; i < logN; i++) {
+            std::swap(ping, pong);
+            ping->bindImage(1, GL_READ_ONLY);
+            pong->bindImage(2, GL_WRITE_ONLY);
+            loadInt("stage", i);
+            glDispatchCompute(N/16, N/16, 1);
+        }
+
         std::swap(ping, pong);
-        ping->bindImage(1, GL_READ_ONLY);
-        pong->bindImage(2, GL_WRITE_ONLY);
-        loadInt("stage", i);
-        glDispatchCompute(N/16, N/16, 1);
+        stage2.compute(ping, dx);
+    }
+
+    {
+        use();
+        butterflyTex->bindImage(0, GL_READ_ONLY);
+
+        pong = hktZTex, ping = storage;
+
+        loadInt("horiz", 1);
+
+        for (int i = 0; i < logN; i++) {
+            std::swap(ping, pong);
+            ping->bindImage(1, GL_READ_ONLY);
+            pong->bindImage(2, GL_WRITE_ONLY);
+            loadInt("stage", i);
+            glDispatchCompute(N/16, N/16, 1);
+        }
+
+        loadInt("horiz", 0);
+        for (int i = 0; i < logN; i++) {
+            std::swap(ping, pong);
+            ping->bindImage(1, GL_READ_ONLY);
+            pong->bindImage(2, GL_WRITE_ONLY);
+            loadInt("stage", i);
+            glDispatchCompute(N/16, N/16, 1);
+        }
+
+        std::swap(ping, pong);
+        stage2.compute(ping, dz);
     }
 
     disuse();
-
-    std::swap(ping, pong);
-    stage2.compute(ping, pong);
 }

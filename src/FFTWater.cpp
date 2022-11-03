@@ -14,9 +14,9 @@ float FFTWater::phillips(glm::vec2 k) {
 
     float numerator = expf(-1.f / (magk * magk * L * L));
     float denominator = magk * magk * magk * magk;
-    float vectorstuff = powf(fabsf(glm::dot(k / magk, glm::normalize(w))), 2.f); // 8?
+    float vectorstuff = powf(fabsf(glm::dot(k / magk, glm::normalize(w))), 6.f); 
  
-    return A * (numerator / denominator) * vectorstuff * exp(-(magk * magk) * (L / 100.0) * (L / 100.0));
+    return A * (numerator / denominator) * vectorstuff * exp(-(magk * magk) * (1.f * 1.f));
 }
 
 std::complex<float> FFTWater::h0(glm::vec2 k) {
@@ -32,8 +32,8 @@ void FFTWater::precomputeH0k() {
 
     for (int i = 0; i < N; i++) {
         for (int j = 0; j < N; j++) {
-            float n = i;// - float(N) / 2.f;
-            float m = j;// - float(N) / 2.f;
+            float n = i - float(N) / 2.f;
+            float m = j - float(N) / 2.f;
             glm::vec2 k(2.f * M_PI * n / length, 2.f * M_PI * m / length);
 
             std::complex<float> h0k = h0(k);
@@ -128,7 +128,7 @@ FFTWater::FFTWater(int N, float A, float windspeed, float length, const glm::vec
 
 void FFTWater::update() {
     hktCompute.compute(h0Texture);
-    ifft.compute(hktCompute.hktTexture, butterflyTexture);
+    ifft.compute(hktCompute.hktTexture, hktCompute.hktXTexture, hktCompute.hktZTexture, butterflyTexture);
 }
 
 // due to a glitch in my Nvidia OpenGL driver, artifacts occur if there is insufficient

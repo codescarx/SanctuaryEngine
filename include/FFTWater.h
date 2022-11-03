@@ -18,6 +18,8 @@ public:
     inline Texture* getH0Texture() { return h0Texture; }
     inline Texture* getHktTexture() { return hktCompute.hktTexture; }
     inline Texture* getButterflyTexture() { return butterflyTexture; }
+    inline Texture* getDxMap() { return ifft.getDxMap(); }
+    inline Texture* getDzMap() { return ifft.getDzMap(); }
     inline Texture* getHeightmap() { return ifft.getHeightmap(); }
     inline Texture* getNormalmap() { return normalTex; }
 
@@ -32,7 +34,7 @@ public:
     const float A, windspeed, length;
     const glm::vec2 w;
 
-    float reflectivity = 1.f, shineDamper = 250.0, fadeSpeed = 0.15f;
+    float reflectivity = 2.f, shineDamper = 280.0, fadeSpeed = 0.15f;
 private:
     HktCompute hktCompute;
     Ifft ifft;

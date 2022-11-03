@@ -32,38 +32,38 @@ int main(void) {
     scene->ambientLight = 0.4f;
     scene->skyboxTexture = new Texture({"res/skybox/posx.png","res/skybox/negx.png","res/skybox/posy.png","res/skybox/negy.png","res/skybox/posz.png","res/skybox/negz.png"});
 
-    // scene->terrain = std::move(std::make_unique<Terrain>(glm::vec3(-400.f, 0.f, -400.f), 16, 50.f, 50.f, new Texture("res/sand.jpg"), 50.f, new Heightmap("res/heightmap.png", 100.f, 5.f)));
+    scene->terrain = std::move(std::make_unique<Terrain>(glm::vec3(-400.f, 0.f, -400.f), 16, 50.f, 50.f, new Texture("res/sand.jpg"), 50.f, new Heightmap("res/heightmap.png", 100.f, 5.f)));
 
-    // scene->water = std::move(std::make_unique<FFTWater>(512, 200.f, 26.f, 1000.f, glm::vec2(0, 1), 0.5f));
-    // scene->water->position = glm::vec3(-800.f, 0.f, -800.f);
-    // scene->water->tiling = 20.f;
-    // scene->water->fadeSpeed = 0.09f;
+    scene->water = std::move(std::make_unique<FFTWater>(512, 60.f, 31.f, 1000.f, glm::vec2(0, 1), 0.7f));
+    scene->water->position = glm::vec3(-800.f, 0.f, -800.f);
+    scene->water->tiling = 15.f;
+    scene->water->fadeSpeed = 0.09f;
 
-    Model monkey(Vao::loadFromObj("res/monkey.obj"), new Texture(0.5f, 0.5f, 0.5f));
-    Model leaves(Vao::loadFromObj("res/spruce_05_LOD0.obj", 1), new Texture("res/spruceleaf.png"));
-    Model trunk(Vao::loadFromObj("res/spruce_05_LOD0.obj", 0), new Texture("res/sprucebark.png"));
-    leaves.cullBackface = trunk.cullBackface = false;
+    // Model monkey(Vao::loadFromObj("res/monkey.obj"), new Texture(0.5f, 0.5f, 0.5f));
+    // Model leaves(Vao::loadFromObj("res/spruce_05_LOD0.obj", 1), new Texture("res/spruceleaf.png"));
+    // Model trunk(Vao::loadFromObj("res/spruce_05_LOD0.obj", 0), new Texture("res/sprucebark.png"));
+    // leaves.cullBackface = trunk.cullBackface = false;
 
-    scene->entities.emplace_back(glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.f), glm::vec3(1.f), trunk);
-    scene->entities.emplace_back(glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.f), glm::vec3(1.f), leaves);
+    // scene->entities.emplace_back(glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.f), glm::vec3(1.f), trunk);
+    // scene->entities.emplace_back(glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.f), glm::vec3(1.f), leaves);
 
     while (!engine.windowShouldClose()) {
         camera->update();
 
         if (scene->water) scene->water->update();
 
-        // ImGui::Begin("options");
+        ImGui::Begin("options");
 
-        // ImGui::SliderFloat("lx", &scene->lightDirection.x, -1, 1);
-        // ImGui::SliderFloat("ly", &scene->lightDirection.y, -1, 1);
-        // ImGui::SliderFloat("lz", &scene->lightDirection.z, -1, 1);
+        ImGui::SliderFloat("lx", &scene->lightDirection.x, -1, 1);
+        ImGui::SliderFloat("ly", &scene->lightDirection.y, -1, 1);
+        ImGui::SliderFloat("lz", &scene->lightDirection.z, -1, 1);
         
-        // ImGui::SliderFloat("fade", &scene->water->fadeSpeed, 0, 1);
-        // ImGui::SliderFloat("y", &scene->water->position.y, -20, 20);
-        // ImGui::SliderFloat("normal", &scene->water->normalStrength, 0.1, 2.0);
-        // ImGui::SliderFloat("reflectivity", &scene->water->reflectivity, 0.1, 5.0);
-        // ImGui::SliderFloat("shineDamper", &scene->water->shineDamper, 50.0, 300.0);
-        // ImGui::End();
+        ImGui::SliderFloat("fade", &scene->water->fadeSpeed, 0, 1);
+        ImGui::SliderFloat("y", &scene->water->position.y, -20, 20);
+        ImGui::SliderFloat("normal", &scene->water->normalStrength, 0.1, 2.0);
+        ImGui::SliderFloat("reflectivity", &scene->water->reflectivity, 0.1, 5.0);
+        ImGui::SliderFloat("shineDamper", &scene->water->shineDamper, 50.0, 300.0);
+        ImGui::End();
 
         // ImGui::Begin("Ocean Heightmap");
         // ImGui::Image((void*)(intptr_t)scene->water->getHeightmap()->textureId, ImVec2(512, 512));

@@ -4,6 +4,8 @@ layout (local_size_x = 16, local_size_y = 16) in;
 
 layout (binding = 0, rgba32f) readonly uniform image2D h0Texture;
 layout (binding = 1, rgba32f) writeonly uniform image2D hktTexture;
+layout (binding = 2, rgba32f) writeonly uniform image2D hktXTexture;
+layout (binding = 3, rgba32f) writeonly uniform image2D hktZTexture;
 
 uniform int N;
 uniform float L;
@@ -23,8 +25,8 @@ vec2 cplx_conj(vec2 a) {
 
 void main(void) {
     vec2 grid = gl_GlobalInvocationID.xy;
-    float n = grid.x, m = grid.y;
-    //float n = grid.x - float(N)/2.0, m = grid.y - float(N)/2.0;
+    //float n = grid.x, m = grid.y;
+    float n = grid.x - float(N)/2.0, m = grid.y - float(N)/2.0;
     vec2 k = vec2(2.0 * PI * n / L, 2.0 * PI * m / L);
 
     float magk = max(length(k), 0.0001);
@@ -38,5 +40,10 @@ void main(void) {
         cplx_mul(h0k, vec2(cos(w*t), sin(w*t))) +
         cplx_mul(cplx_conj(h0minusk), vec2(cos(-w*t), sin(-w*t)));
 
+    vec2 dx = cplx_mul(vec2(0.0, -k.x/magk), hkt);
+    vec2 dz = cplx_mul(vec2(0.0, -k.y/magk), hkt);
+
     imageStore(hktTexture, ivec2(gl_GlobalInvocationID.xy), vec4(hkt, 0.0, 1.0));
+    imageStore(hktXTexture, ivec2(gl_GlobalInvocationID.xy), vec4(dx, 0.0, 1.0));
+    imageStore(hktZTexture, ivec2(gl_GlobalInvocationID.xy), vec4(dz, 0.0, 1.0));
 }

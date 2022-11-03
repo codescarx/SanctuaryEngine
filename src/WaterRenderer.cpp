@@ -26,7 +26,9 @@ void WaterRenderer::render(Scene *scene, Camera *camera) {
     loadUniforms(scene, camera);
 
     water->getHeightmap()->bind(0);
-    water->getNormalmap()->bind(1);
+    water->getDxMap()->bind(1);
+    water->getDzMap()->bind(2);
+    water->getNormalmap()->bind(3);
 
     glPatchParameteri(GL_PATCH_VERTICES, 4);
     glDrawArraysInstanced(GL_PATCHES, 0, 4, water->tileCnt * water->tileCnt);

@@ -9,6 +9,8 @@ layout (location = 0) out vec2 outUv;
 uniform mat4 vpMatrix;
 uniform float tiling;
 layout (binding = 0) uniform sampler2D heightmap;
+layout (binding = 1) uniform sampler2D dxMap;
+layout (binding = 2) uniform sampler2D dzMap;
 
 void main(void) {
     vec4 pos1 = mix(gl_in[0].gl_Position, gl_in[1].gl_Position, gl_TessCoord.x);
@@ -19,7 +21,10 @@ void main(void) {
 	vec2 uv2 = mix(inUv[3], inUv[2], gl_TessCoord.x);
 	outUv = mix(uv1, uv2, gl_TessCoord.y);
 
-    pos.y += texture(heightmap, outUv * tiling).r;
+    float dx = texture(dxMap, outUv * tiling).r * 3;
+    float dy = texture(heightmap, outUv * tiling).r * 1.5;
+    float dz = texture(dzMap, outUv * tiling).r * 3;
+    pos += vec4(-dx, dy, -dz, 0.0);
 
     gl_Position = vpMatrix * pos;
 }

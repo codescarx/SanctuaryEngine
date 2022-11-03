@@ -15,11 +15,13 @@ private:
 class Ifft : public Shader {
 public:
     Ifft(int N, int logN);
-    void compute(Texture *hktTex, Texture *butterflyTex);
-    inline Texture* getHeightmap() { return pong; }
+    void compute(Texture *hktTex, Texture *hktXTex, Texture *hktZTex, Texture *butterflyTex);
+    inline Texture* getDxMap() { return dx; }
+    inline Texture* getHeightmap() { return dy; }
+    inline Texture* getDzMap() { return dz; }
 private:
     const int N, logN;
-    Texture *storage;
+    Texture *storage, *dx, *dy, *dz;
     Texture *ping, *pong;
     Ifft2 stage2;
 };

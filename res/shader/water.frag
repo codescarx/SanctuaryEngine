@@ -4,8 +4,7 @@ layout (location = 0) in vec2 inUv;
 
 layout (location = 0) out vec4 normals;
 
-layout (binding = 0) uniform sampler2D heightmap;
-layout (binding = 1) uniform sampler2D normalmap;
+layout (binding = 3) uniform sampler2D normalmap;
 
 uniform float tiling;
 
