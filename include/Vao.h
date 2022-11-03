@@ -27,7 +27,7 @@ public:
     inline void bind() { glBindVertexArray(vaoId); }
     inline void unbind() { glBindVertexArray(0); }
 
-    static Vao* loadFromObj(const char *filename);
+    static Vao* loadFromObj(const char *filename, int s = 0);
 private:
     std::vector<GLuint> vbos;
 };

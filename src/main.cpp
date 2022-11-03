@@ -30,22 +30,25 @@ int main(void) {
     scene->lightDirection = glm::vec3(0, -1, 0.7);
     scene->lightColour = glm::vec3(1.0f);
     scene->ambientLight = 0.4f;
-    scene->terrain = std::move(std::make_unique<Terrain>(glm::vec3(-400.f, 0.f, -400.f), 16, 50.f, 50.f, new Texture("res/sand.jpg"), 50.f, new Heightmap("res/heightmap.png", 100.f, 5.f)));
     scene->skyboxTexture = new Texture({"res/skybox/posx.png","res/skybox/negx.png","res/skybox/posy.png","res/skybox/negy.png","res/skybox/posz.png","res/skybox/negz.png"});
 
-    scene->water = std::move(std::make_unique<FFTWater>(512, 200.f, 26.f, 1000.f, glm::vec2(0, 1), 0.5f));
-    scene->water->position = glm::vec3(-800.f, 0.f, -800.f);
-    scene->water->tiling = 20.f;
-    scene->water->fadeSpeed = 0.09f;
+    // scene->terrain = std::move(std::make_unique<Terrain>(glm::vec3(-400.f, 0.f, -400.f), 16, 50.f, 50.f, new Texture("res/sand.jpg"), 50.f, new Heightmap("res/heightmap.png", 100.f, 5.f)));
+
+    // scene->water = std::move(std::make_unique<FFTWater>(512, 200.f, 26.f, 1000.f, glm::vec2(0, 1), 0.5f));
+    // scene->water->position = glm::vec3(-800.f, 0.f, -800.f);
+    // scene->water->tiling = 20.f;
+    // scene->water->fadeSpeed = 0.09f;
 
     Model monkey(Vao::loadFromObj("res/monkey.obj"), new Texture(0.5f, 0.5f, 0.5f));
+    Model leaves(Vao::loadFromObj("res/spruce_05_LOD0.obj", 1), new Texture("res/spruceleaf.png"));
+    Model trunk(Vao::loadFromObj("res/spruce_05_LOD0.obj", 0), new Texture("res/sprucebark.png"));
+    leaves.cullBackface = trunk.cullBackface = false;
 
-    scene->entities.emplace_back(glm::vec3(0.f, 100.f, 0.f), glm::vec3(0.f), glm::vec3(10.f), monkey);
+    scene->entities.emplace_back(glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.f), glm::vec3(1.f), trunk);
+    scene->entities.emplace_back(glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.f), glm::vec3(1.f), leaves);
 
     while (!engine.windowShouldClose()) {
         camera->update();
-
-        scene->entities.back().rotation.y += 30.f * Engine::instance->getDelta();
 
         if (scene->water) scene->water->update();
 

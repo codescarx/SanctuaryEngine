@@ -34,7 +34,7 @@ Vao::~Vao() {
     glDeleteBuffers(vbos.size(), vbos.data());
 }
 
-Vao* Vao::loadFromObj(const char *filename) {
+Vao* Vao::loadFromObj(const char *filename, int s) {
     tinyobj::attrib_t attrib;
     std::vector<tinyobj::shape_t> shapes;
     std::vector<tinyobj::material_t> materials;
@@ -47,7 +47,7 @@ Vao* Vao::loadFromObj(const char *filename) {
         fatal(err.c_str());
     }
 
-    const tinyobj::shape_t &shape = shapes[0];
+    const tinyobj::shape_t &shape = shapes[s];
     int i = 0;
     std::vector<Vertex> vertices;
     for (int f = 0; f < shape.mesh.num_face_vertices.size(); f++) {

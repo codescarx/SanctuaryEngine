@@ -17,6 +17,8 @@ void EntityRenderer::render(Scene *scene, Camera *camera) {
     for (Entity &e : scene->entities) {
         e.model.mesh->bind();
         e.model.texture->bind(0);
+        if (e.model.cullBackface) glEnable(GL_CULL_FACE);
+        else glDisable(GL_CULL_FACE);
         
         e.updateTransformationMatrix();
         loadMat4("transformationMatrix", e.getTransformationMatrix());
