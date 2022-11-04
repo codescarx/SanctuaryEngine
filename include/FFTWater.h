@@ -13,7 +13,6 @@ class FFTWater {
 public:
     FFTWater(int N, float A, float windspeed, float length, const glm::vec2 &w, float normalStrength);
     void update();
-    void updateDelayed();
 
     inline Texture* getH0Texture() { return h0Texture; }
     inline Texture* getHktTexture() { return hktCompute.hktTexture; }

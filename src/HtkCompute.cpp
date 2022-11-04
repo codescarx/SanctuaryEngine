@@ -22,6 +22,6 @@ void HktCompute::compute(Texture *h0Texture) {
     hktXTexture->bindImage(2, GL_WRITE_ONLY);
     hktZTexture->bindImage(3, GL_WRITE_ONLY);
 
-    glDispatchCompute(N/16, N/16, 1);
+    dispatchCompute(N/16, N/16, 1);
     disuse();
 }

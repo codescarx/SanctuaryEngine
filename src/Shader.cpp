@@ -68,3 +68,8 @@ void Shader::addShader(const char *path, GLenum type) {
     shaderIds.push_back(shaderId);
     glAttachShader(programId, shaderId);
 }
+
+void Shader::dispatchCompute(int x, int y, int z) {
+    glDispatchCompute(x, y, z);
+    glFinish();
+}

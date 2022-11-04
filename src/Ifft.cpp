@@ -9,7 +9,7 @@ void Ifft2::compute(Texture *in, Texture *out) {
     loadInt("N", N);
     in->bindImage(0, GL_READ_ONLY);
     out->bindImage(1, GL_WRITE_ONLY);
-    glDispatchCompute(N/16, N/16, 1);
+    dispatchCompute(N/16, N/16, 1);
     disuse();
 } 
 
@@ -35,7 +35,7 @@ void Ifft::compute(Texture *hktTex, Texture *hktXTex, Texture *hktZTex, Texture 
             ping->bindImage(1, GL_READ_ONLY);
             pong->bindImage(2, GL_WRITE_ONLY);
             loadInt("stage", i);
-            glDispatchCompute(N/16, N/16, 1);
+            dispatchCompute(N/16, N/16, 1);
         }
 
         loadInt("horiz", 0);
@@ -44,7 +44,7 @@ void Ifft::compute(Texture *hktTex, Texture *hktXTex, Texture *hktZTex, Texture 
             ping->bindImage(1, GL_READ_ONLY);
             pong->bindImage(2, GL_WRITE_ONLY);
             loadInt("stage", i);
-            glDispatchCompute(N/16, N/16, 1);
+            dispatchCompute(N/16, N/16, 1);
         }
 
         std::swap(ping, pong);
@@ -64,7 +64,7 @@ void Ifft::compute(Texture *hktTex, Texture *hktXTex, Texture *hktZTex, Texture 
             ping->bindImage(1, GL_READ_ONLY);
             pong->bindImage(2, GL_WRITE_ONLY);
             loadInt("stage", i);
-            glDispatchCompute(N/16, N/16, 1);
+            dispatchCompute(N/16, N/16, 1);
         }
 
         loadInt("horiz", 0);
@@ -73,7 +73,7 @@ void Ifft::compute(Texture *hktTex, Texture *hktXTex, Texture *hktZTex, Texture 
             ping->bindImage(1, GL_READ_ONLY);
             pong->bindImage(2, GL_WRITE_ONLY);
             loadInt("stage", i);
-            glDispatchCompute(N/16, N/16, 1);
+            dispatchCompute(N/16, N/16, 1);
         }
 
         std::swap(ping, pong);
@@ -93,7 +93,7 @@ void Ifft::compute(Texture *hktTex, Texture *hktXTex, Texture *hktZTex, Texture 
             ping->bindImage(1, GL_READ_ONLY);
             pong->bindImage(2, GL_WRITE_ONLY);
             loadInt("stage", i);
-            glDispatchCompute(N/16, N/16, 1);
+            dispatchCompute(N/16, N/16, 1);
         }
 
         loadInt("horiz", 0);
@@ -102,7 +102,7 @@ void Ifft::compute(Texture *hktTex, Texture *hktXTex, Texture *hktZTex, Texture 
             ping->bindImage(1, GL_READ_ONLY);
             pong->bindImage(2, GL_WRITE_ONLY);
             loadInt("stage", i);
-            glDispatchCompute(N/16, N/16, 1);
+            dispatchCompute(N/16, N/16, 1);
         }
 
         std::swap(ping, pong);

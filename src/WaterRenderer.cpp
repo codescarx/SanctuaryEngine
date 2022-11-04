@@ -18,7 +18,6 @@ WaterRenderer::WaterRenderer() : Shader(VERTFILE, FRAGFILE, nullptr, TESCFILE, T
 void WaterRenderer::render(Scene *scene, Camera *camera) {
     FFTWater *water = scene->water.get();
     if (!water) return;
-    scene->water->updateDelayed();
 
     use();
     dummyVao->bind();

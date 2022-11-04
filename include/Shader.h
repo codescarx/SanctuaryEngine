@@ -15,6 +15,7 @@ public:
     virtual ~Shader();
     inline void use() { glUseProgram(programId); }
     inline void disuse() { glUseProgram(0); }
+    void dispatchCompute(int x, int y, int z);
 private:
     void addShader(const char *path, GLenum type);
     void link(const std::vector<std::string> &uniformVarNames);

@@ -10,7 +10,7 @@ void NormalCompute::compute(int N, Texture *heightTex, float strength, Texture *
     loadFloat("N", N);
     loadFloat("strength", strength);
 
-    glDispatchCompute(N, N, 1);
+    dispatchCompute(N, N, 1);
 
     disuse();
 }
@@ -24,7 +24,7 @@ void NormalCompute::compute(int N, GLuint heightTex, float strength, GLuint norm
     loadFloat("N", N);
     loadFloat("strength", strength);
 
-    glDispatchCompute(N, N, 1);
+    dispatchCompute(N, N, 1);
 
     disuse();
 }
