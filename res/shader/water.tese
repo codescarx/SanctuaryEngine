@@ -21,9 +21,9 @@ void main(void) {
 	vec2 uv2 = mix(inUv[3], inUv[2], gl_TessCoord.x);
 	outUv = mix(uv1, uv2, gl_TessCoord.y);
 
-    float dx = texture(dxMap, outUv * tiling).r * 3;
+    float dx = texture(dxMap, outUv * tiling).r * 2.9;
     float dy = texture(heightmap, outUv * tiling).r * 1.5;
-    float dz = texture(dzMap, outUv * tiling).r * 3;
+    float dz = texture(dzMap, outUv * tiling).r * 2.9;
     pos += vec4(-dx, dy, -dz, 0.0);
 
     gl_Position = vpMatrix * pos;

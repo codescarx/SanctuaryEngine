@@ -146,29 +146,96 @@ float fresnelTerm(vec3 normal, vec3 viewDir) {
     return clamp(fresnel * (1.0 - clamp(R0, 0.0, 1.0)) + R0, 0.0, 1.0);
 }
 
+float fresnelSchlick(vec3 position, vec3 normal) {
+    float cosTheta = dot(normal, normalize(cameraPos - position));
+	float F0 = 0.02;
+    return F0 + (1.0 - F0) * pow(1.0 - cosTheta, 5.0);
+}
+
+float saturate(float x) {
+    return clamp(x, 0.0, 1.0);
+}
+
 vec3 getWaterColour(vec3 originalColour, vec3 position, vec3 normal, float depth, float vdepth) {
 
-    const vec3 waterColour = vec3(0.349, 0.384, 0.493) * 0.65;
-    const vec3 depthColour = waterColour * 0.8;
-    const float shoreHardness = 0.5;
+    const float diffuseStrength = 0.2;
+    const vec3 diffuseColour = diffuseStrength * vec3(0.05,0.4,0.65);
 
-    vec3 reflection = waterColour;
-    vec3 refraction = originalColour;
+    float ambientStrength = 0.5;
+    vec3 ambientColour = 0.5 * diffuseColour;
+    vec3 scatterColour = vec3(0.05, 0.8, 0.7);
+    float specularStrength = 1.0;
+    float scatterStrength = 0.5;
+    float distortion = 0.2;
 
-    vec3 viewDir = normalize(cameraPos - position);
-    float fresnel = fresnelTerm(normal, viewDir);
+    float power = 8.0;
+    float scale = 0.4;
+
+    vec3 lightDir = -lightDirection;
+
+    ///////////////////////////////
+
+    vec3 result = vec3(0.0);
+
+    vec3 rayDir = normalize(position - cameraPos);
+    vec3 halfwayDir = normalize(lightDir - rayDir);
+    float spec = pow(max(dot(normal, halfwayDir), 0.0), 512.0);
+
+    vec3 specular = spec * lightColour;
+
+    float sun = max(dot(normal, lightDir), 0.0);
+    vec3 sunlight = sun * lightColour;
+
+    float sky = max(dot(normal, vec3(0.0, 1.0, 0.0)), 0.0);
+    vec3 skylight = sky * vec3(0.09, 0.33, 0.81);
+
+    result += sunlight;
+    result += skylight;
+
+    float A = 1.5;
+    float heightFraction = saturate((position.y + A) / (2.0 * A));
+
+    vec3 col = mix(ambientColour, 0.5 * scatterColour, pow(0.5 + 0.5 * rayDir.y, 2.0));
+
+    result *= diffuseColour;
+    result += ambientStrength * col + specularStrength * specular;
+
+    vec3 h = normalize(-lightDir + normal * distortion);
+    float vDotH = pow(saturate(dot(rayDir, -h)), power) * scale;
+
+    float dist = length(cameraPos - position);
+    result += scatterStrength * pow((1.0-position.y/A), 4.0) * 
+                heightFraction * vDotH * scatterColour;
     
-    float depthN = depth * fadeSpeed;
-    float thing = clamp(length(lightColour) / sunScale, 0.0, 1.0);
-    refraction = mix(mix(refraction, thing * waterColour, clamp(depthN / waterVisibility, 0.0, 1.0)),
-						  thing * depthColour, clamp(vdepth / extinction, 0.0, 1.0));
-
-    vec3 result = mix(refraction, reflection, fresnel);
-    result = light(result, position, normal, waterReflectivity, waterShineDamper);
-    result = mix(refraction, result, clamp(depth * shoreHardness, 0.0, 1.0));
+    vec3 reflectedDir = normalize(reflect(rayDir, normal));
+    vec3 reflectedCol = texture(skyboxTexture, reflectedDir).rgb;
+    float fresnel = saturate(fresnelSchlick(position, normal));
+    result = mix(result, 0.5 * reflectedCol, fresnel);
 
     return result;
+
+    // const vec3 waterColour = vec3(0.349, 0.384, 0.493) * 0.65;
+    // const vec3 depthColour = waterColour * 0.8;
+    // const float shoreHardness = 0.5;
+
+    // vec3 reflection = waterColour * 1.5;
+    // vec3 refraction = originalColour;
+
+    // vec3 viewDir = normalize(cameraPos - position);
+    // float fresnel = fresnelTerm(normal, viewDir);
+    
+    // float depthN = depth * fadeSpeed;
+    // float thing = clamp(length(lightColour) / sunScale, 0.0, 1.0);
+    // refraction = mix(mix(refraction, thing * waterColour, clamp(depthN / waterVisibility, 0.0, 1.0)),
+	// 					  thing * depthColour, clamp(vdepth / extinction, 0.0, 1.0));
+
+    // vec3 result = mix(refraction, reflection, fresnel);
+    // result = light(result, position, normal, waterReflectivity, waterShineDamper);
+    // result = mix(refraction, result, clamp(depth * shoreHardness, 0.0, 1.0));
+
+    // return result;
 }
+
 
 void main(void) {
     vec3 fragPos = getWorldPos();
