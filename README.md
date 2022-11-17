@@ -4,7 +4,7 @@ This is the 5th rewrite of my graphics engine. The focus of this rewrite is to i
 
 ***This engine is a work in progress and more features will be added soon.***
 
-![](readmeimg/sudden.png)
+![](readmeimg/cover.png)
 
 ___
 ## Features:
