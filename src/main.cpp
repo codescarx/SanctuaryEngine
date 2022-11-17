@@ -26,7 +26,7 @@ int main(void) {
     Scene *scene = new Scene();
     Camera *camera = new Camera(glm::vec3(0.f, 200.f, 0.f), 1.f, 2000.f, 50.f);
 
-    scene->fogDensity = 0.0017f;
+    scene->fogDensity = 0.003f;
     scene->fogGradient = 4.0f;
     scene->lightDirection = glm::vec3(sin(0.0), -0.5, cos(0.0));
     scene->lightColour = glm::vec3(1.0f);
@@ -59,9 +59,8 @@ int main(void) {
 
         ImGui::Begin("options");
 
-        ImGui::SliderFloat("lx", &scene->lightDirection.x, -1, 1);
-        ImGui::SliderFloat("ly", &scene->lightDirection.y, -1, 1);
-        ImGui::SliderFloat("lz", &scene->lightDirection.z, -1, 1);
+        ImGui::SliderFloat("hs", &scene->water->heightScale, 0, 3);
+        ImGui::SliderFloat("chop", &scene->water->choppiness, 0, 3);
         
         ImGui::SliderFloat("fade", &scene->water->fadeSpeed, 0, 1);
         ImGui::SliderFloat("y", &scene->water->position.y, -20, 20);

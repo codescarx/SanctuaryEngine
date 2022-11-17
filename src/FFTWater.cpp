@@ -14,7 +14,7 @@ float FFTWater::phillips(glm::vec2 k) {
 
     float numerator = expf(-1.f / (magk * magk * L * L));
     float denominator = magk * magk * magk * magk;
-    float vectorstuff = powf(fabsf(glm::dot(k / magk, glm::normalize(w))), 6.f); 
+    float vectorstuff = powf(fabsf(glm::dot(k / magk, glm::normalize(w))), 4.f); 
  
     return A * (numerator / denominator) * vectorstuff * exp(-(magk * magk) * (1.f * 1.f));
 }

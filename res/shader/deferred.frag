@@ -158,8 +158,8 @@ float saturate(float x) {
 
 vec3 getWaterColour(vec3 originalColour, vec3 position, vec3 normal, float depth, float vdepth) {
 
-    const float diffuseStrength = 0.2;
-    const vec3 diffuseColour = diffuseStrength * vec3(0.05,0.4,0.65);
+    const float diffuseStrength = 1.5;
+    const vec3 diffuseColour = diffuseStrength * vec3(0.064, 0.085, 0.12);
 
     float ambientStrength = 0.5;
     vec3 ambientColour = 0.5 * diffuseColour;
@@ -187,7 +187,7 @@ vec3 getWaterColour(vec3 originalColour, vec3 position, vec3 normal, float depth
     vec3 sunlight = sun * lightColour;
 
     float sky = max(dot(normal, vec3(0.0, 1.0, 0.0)), 0.0);
-    vec3 skylight = sky * vec3(0.09, 0.33, 0.81);
+    vec3 skylight = sky * vec3(0.09, 0.43, 0.51);
 
     result += sunlight;
     result += skylight;
@@ -208,6 +208,7 @@ vec3 getWaterColour(vec3 originalColour, vec3 position, vec3 normal, float depth
                 heightFraction * vDotH * scatterColour;
     
     vec3 reflectedDir = normalize(reflect(rayDir, normal));
+    reflectedDir.y = max(0.1, reflectedDir.y);
     vec3 reflectedCol = texture(skyboxTexture, reflectedDir).rgb;
     float fresnel = saturate(fresnelSchlick(position, normal));
     result = mix(result, 0.5 * reflectedCol, fresnel);

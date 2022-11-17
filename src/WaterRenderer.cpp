@@ -10,7 +10,8 @@
 static const std::vector<std::string> uniforms = {
     "position", "tileSize", "tileCnt", "tiling",
     "viewMatrix", "projectionMatrix", "vpMatrix",
-    "screenDim", "tessDivisor"
+    "screenDim", "tessDivisor",
+    "heightScale", "choppiness"
 };
 
 WaterRenderer::WaterRenderer() : Shader(VERTFILE, FRAGFILE, nullptr, TESCFILE, TESEFILE, uniforms), dummyVao(new Vao()) {}
@@ -48,4 +49,7 @@ void WaterRenderer::loadUniforms(Scene *scene, Camera *camera) {
 
     loadVec2("screenDim", glm::vec2(Engine::instance->getDisplay()->getWidth(), Engine::instance->getDisplay()->getHeight()));
     loadFloat("tessDivisor", scene->water->tessDivisor);
+
+    loadFloat("heightScale", scene->water->heightScale);
+    loadFloat("choppiness", scene->water->choppiness);
 }
