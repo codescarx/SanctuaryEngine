@@ -23,9 +23,10 @@ public:
     inline Texture* getNormalmap() { return normalTex; }
 
     glm::vec3 position;
-    glm::vec3 colour = glm::vec3(0.349, 0.384, 0.463);
+    //glm::vec3 colour = glm::vec3(0.349, 0.384, 0.463);
+    glm::vec3 colour = glm::vec3(0.064, 0.085, 0.12);
     float tiling = 64.f, normalStrength, tessDivisor = 30.f;
-    float heightScale = 1.5f, choppiness = 2.f;
+    float heightScale = 1.5f, choppiness = 3.f;
 
     const int tileCnt = 128;
     const float tileSize = 12.5f;

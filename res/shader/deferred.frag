@@ -159,7 +159,7 @@ float saturate(float x) {
 vec3 getWaterColour(vec3 originalColour, vec3 position, vec3 normal, float depth, float vdepth) {
 
     const float diffuseStrength = 1.5;
-    const vec3 diffuseColour = diffuseStrength * vec3(0.064, 0.085, 0.12);
+    const vec3 diffuseColour = diffuseStrength * waterColour;
 
     float ambientStrength = 0.5;
     vec3 ambientColour = 0.5 * diffuseColour;

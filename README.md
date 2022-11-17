@@ -10,7 +10,7 @@ ___
 ## Features:
 
 ### Realistic Ocean Wave Simulation using the Discrete Inverse Fourier Transform
-![](readmeimg/ocean.png)
+![](readmeimg/betterocean.png)
 
 ___
 ### Terrain Level of Detail using Tesselation

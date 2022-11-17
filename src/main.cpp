@@ -48,6 +48,12 @@ int main(void) {
     // scene->entities.emplace_back(glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.f), glm::vec3(1.f), trunk);
     // scene->entities.emplace_back(glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.f), glm::vec3(1.f), leaves);
 
+    camera->position = glm::vec3(0, 22.0672, 0);
+    camera->pitch = 20.6463;
+    camera->yaw = 87.3378;
+
+    // (0, 14.5964, 0) 11.7448 85.8641
+
     while (!engine.windowShouldClose()) {
         camera->update();
 
@@ -55,23 +61,31 @@ int main(void) {
         // camera->pitch = 46.6381;
         // camera->yaw = 582.363;
 
+        if (engine.getDisplay()->isKeyDown(GLFW_KEY_C)) 
+            std::cout << camera->position << ' ' << camera->pitch << ' ' << camera->yaw << std::endl;
+
         if (scene->water) scene->water->update();
 
-        ImGui::Begin("options");
+        // ImGui::Begin("options");
 
-        ImGui::SliderFloat("hs", &scene->water->heightScale, 0, 3);
-        ImGui::SliderFloat("chop", &scene->water->choppiness, 0, 3);
+        // ImGui::SliderFloat("r", &scene->water->colour.r, 0.0, 1.0);
+        // ImGui::SliderFloat("g", &scene->water->colour.g, 0.0, 1.0);
+        // ImGui::SliderFloat("b", &scene->water->colour.b, 0.0, 1.0);
+
+        // ImGui::SliderFloat("hs", &scene->water->heightScale, 0, 3);
+        // ImGui::SliderFloat("chop", &scene->water->choppiness, 0, 3);
         
-        ImGui::SliderFloat("fade", &scene->water->fadeSpeed, 0, 1);
-        ImGui::SliderFloat("y", &scene->water->position.y, -20, 20);
-        ImGui::SliderFloat("normal", &scene->water->normalStrength, 0.1, 2.0);
-        ImGui::SliderFloat("reflectivity", &scene->water->reflectivity, 0.1, 5.0);
-        ImGui::SliderFloat("shineDamper", &scene->water->shineDamper, 50.0, 300.0);
-        ImGui::End();
-
-        // ImGui::Begin("Ocean Heightmap");
-        // ImGui::Image((void*)(intptr_t)scene->water->getHeightmap()->textureId, ImVec2(512, 512));
+        // ImGui::SliderFloat("fade", &scene->water->fadeSpeed, 0, 1);
+        // ImGui::SliderFloat("y", &scene->water->position.y, -20, 20);
+        // ImGui::SliderFloat("normal", &scene->water->normalStrength, 0.1, 2.0);
+        // ImGui::SliderFloat("reflectivity", &scene->water->reflectivity, 0.1, 5.0);
+        // ImGui::SliderFloat("shineDamper", &scene->water->shineDamper, 50.0, 300.0);
         // ImGui::End();
+
+        ImGui::SetNextWindowPos(ImVec2(0,0));
+        ImGui::Begin("Ocean Heightmap");
+        ImGui::Image((void*)(intptr_t)scene->water->getHeightmap()->textureId, ImVec2(350, 350));
+        ImGui::End();
 
         engine.update(scene, camera);
     }
