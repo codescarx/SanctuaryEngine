@@ -55,10 +55,6 @@ int main(void) {
     while (!engine.windowShouldClose()) {
         camera->update();
 
-        camera->position = glm::vec3(0, 14.8254, 0);
-        camera->pitch = 14.217;
-        camera->yaw = 85.8641;
-
         if (engine.getDisplay()->isKeyDown(GLFW_KEY_C)) 
             std::cout << camera->position << ' ' << camera->pitch << ' ' << camera->yaw << std::endl;
 
