@@ -9,6 +9,14 @@ https://user-images.githubusercontent.com/116704362/202363803-15618b1a-4989-4495
 ___
 ## Features:
 
+### Terrain Level of Detail using Tesselation
+![](readmeimg/terrain.png)
+
+___
+### Realistic Ocean Wave Simulation using the Discrete Inverse Fourier Transform
+![](readmeimg/betterocean.png)
+
+___
 ### Deferred Rendering
 <p float="left">
   <img src="readmeimg/deferred/albedo.png" width="49%" />
@@ -18,11 +26,3 @@ ___
   <img src="readmeimg/deferred/position.png" width="49%" />
   <img src="readmeimg/deferred/lit.png" width="49%" /> 
 </p>
-
-___
-### Realistic Ocean Wave Simulation using the Discrete Inverse Fourier Transform
-![](readmeimg/betterocean.png)
-
-___
-### Terrain Level of Detail using Tesselation
-![](readmeimg/terrain.png)
