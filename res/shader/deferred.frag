@@ -204,7 +204,7 @@ vec3 getWaterColour(vec3 originalColour, vec3 position, vec3 normal, float depth
     float vDotH = pow(saturate(dot(rayDir, -h)), power) * scale;
 
     float dist = length(cameraPos - position);
-    result += scatterStrength * pow((1.0-position.y/A), 4.0) * 
+    result += scatterStrength * pow(saturate(1.0-position.y/A), 4.0) * 
                 heightFraction * vDotH * scatterColour;
     
     vec3 reflectedDir = normalize(reflect(rayDir, normal));

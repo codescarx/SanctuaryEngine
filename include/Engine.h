@@ -20,6 +20,7 @@ public:
     static Engine *instance;
 
     void onWindowSizeChanged(int newWidth, int newHeight);
+    float tmp = 0.f;
 private:
     DisplayManager displayManager;
     EntityRenderer entityRenderer;

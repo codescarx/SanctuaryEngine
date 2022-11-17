@@ -48,21 +48,22 @@ int main(void) {
     // scene->entities.emplace_back(glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.f), glm::vec3(1.f), trunk);
     // scene->entities.emplace_back(glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.f), glm::vec3(1.f), leaves);
 
-    camera->position = glm::vec3(0, 22.0672, 0);
-    camera->pitch = 20.6463;
-    camera->yaw = 87.3378;
-
-    // (0, 14.5964, 0) 11.7448 85.8641
+    camera->position = glm::vec3(0, 14.8254, 0);
+    camera->pitch = 14.217;
+    camera->yaw = 85.8641;
 
     while (!engine.windowShouldClose()) {
         camera->update();
 
-        // camera->position = glm::vec3(-60.4655, 62.7346, 56.0305);
-        // camera->pitch = 46.6381;
-        // camera->yaw = 582.363;
+        camera->position = glm::vec3(0, 14.8254, 0);
+        camera->pitch = 14.217;
+        camera->yaw = 85.8641;
 
         if (engine.getDisplay()->isKeyDown(GLFW_KEY_C)) 
             std::cout << camera->position << ' ' << camera->pitch << ' ' << camera->yaw << std::endl;
+
+        if (engine.getDisplay()->isKeyDown(GLFW_KEY_RIGHT_BRACKET)) engine.tmp += 5*engine.getDelta();
+        if (engine.getDisplay()->isKeyDown(GLFW_KEY_LEFT_BRACKET)) engine.tmp -= 5*engine.getDelta();
 
         if (scene->water) scene->water->update();
 

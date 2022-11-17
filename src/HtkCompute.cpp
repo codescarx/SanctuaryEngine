@@ -15,7 +15,7 @@ HktCompute::HktCompute(int N, float length)
 void HktCompute::compute(Texture *h0Texture) {
     use();
     t += Engine::instance->getDelta() * 2.f;
-    loadFloat("t", t);
+    loadFloat("t", Engine::instance->tmp);
 
     h0Texture->bindImage(0, GL_READ_ONLY);
     hktTexture->bindImage(1, GL_WRITE_ONLY);
