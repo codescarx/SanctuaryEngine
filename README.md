@@ -4,17 +4,17 @@ This is the 5th rewrite of my graphics engine. The focus of this rewrite is to i
 
 ***This engine is a work in progress and more features will be added soon.***
 
-![](readmeimg/cover.png)
+![](readmeimg/sudden.png)
 
 ___
 ## Features:
 
-### Realistic Ocean Wave Simulation using the Discrete Inverse Fourier Transform
-![](readmeimg/betterocean.png)
-
-___
 ### Terrain Level of Detail using Tesselation
 ![](readmeimg/terrain.png)
+
+___
+### Realistic Ocean Wave Simulation using the Discrete Inverse Fourier Transform
+![](readmeimg/betterocean.png)
 
 ___
 ### Deferred Rendering
